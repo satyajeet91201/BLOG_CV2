@@ -74,33 +74,74 @@ const Content2 = () => {
         </div>
 
         {/* Projects */}
-        <div className="w-full max-w-4xl text-center mb-10">
-          <h2 className="text-2xl font-semibold mb-6">🚀 Projects</h2>
-          <div className="grid gap-6 sm:grid-cols-2 text-left">
-            {[
-              {
-                title: 'Smart Restaurant Manager',
-                desc: 'Facial recognition-based smart food suggestion system for customers with React and MongoDB.',
-              },
-              {
-                title: 'Flavaro – Food Ordering App',
-                desc: 'Modern UI/UX food order homepage using React.js, Tailwind CSS, Redux, and cart functionality.',
-              },
-              {
-                title: 'Stock Forecasting App',
-                desc: 'AI-based stock price prediction using news sentiment (TensorFlow.js, React, Node).',
-              },
-            ].map(project => (
-              <div
-                key={project.title}
-                className="bg-white dark:bg-gray-700 rounded-xl shadow-md p-4 hover:shadow-lg transition-all"
-              >
-                <h3 className="text-lg font-semibold text-indigo-700 dark:text-indigo-300">{project.title}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">{project.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+<div className="w-full max-w-4xl text-center mb-10">
+  <h2 className="text-2xl font-semibold mb-6">🚀 Projects</h2>
+  <div className="grid gap-6 sm:grid-cols-2 text-left">
+    {[
+  {
+    title: 'Smart Restaurant Manager',
+    desc: (
+      <>
+        Facial recognition-based smart food suggestion system for customers with React and MongoDB.{' '}
+        <a
+          href="https://github.com/satyajeet91201/SRM-Final"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-indigo-600 dark:text-indigo-300 underline ml-1"
+        >
+          GitHub →
+        </a>
+      </>
+    )
+  },
+  {
+    title: 'Flavaro – Food Ordering App',
+    desc: 'Modern UI/UX food order homepage using React.js, Tailwind CSS, Redux, and cart functionality.',
+  },
+  {
+    title: 'Stock Forecasting App',
+    desc: (
+      <>
+        AI-based stock price prediction using news sentiment (TensorFlow.js, React, Node).{' '}
+        <a
+          href="https://github.com/satyajeet91201/SRM-Final"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-indigo-600 dark:text-indigo-300 underline ml-1"
+        >
+          GitHub →
+        </a>
+      </>
+    ),
+  },
+  {
+    title: 'Blog & Profile Application',
+    desc: (
+      <>
+        Full-stack MERN blog and portfolio app with authentication, role-based access, and CMS.{' '}
+        <a
+          href="https://github.com/satyajeet91201/BLOG_CV"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-indigo-600 dark:text-indigo-300 underline ml-1"
+        >
+          GitHub →
+        </a>
+      </>
+    ),
+  },
+].map((project) => (
+      <div
+        key={project.title}
+        className="bg-white dark:bg-gray-700 rounded-xl shadow-md p-4 hover:shadow-lg transition-all"
+      >
+        <h3 className="text-lg font-semibold text-indigo-700 dark:text-indigo-300">{project.title}</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">{project.desc}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
 
         {/* Resume Download */}
         <a

@@ -3,11 +3,12 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import axios from "axios";
 import fs from "fs";
-import path from "path"
+import path from "path";
+import { sendEmail } from "../utils/sendEmail.js";
 
 export const register = async (req, res) => {
   console.log("Reached");
-  const { name, email, password,role } = req.body;
+  const { name, email, password, role } = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).json({ success: false, message: "All fields required" });
@@ -35,19 +36,18 @@ export const register = async (req, res) => {
       expiresIn: "7d",
     });
 
-    
-// ✅ Simulated Email (Write to Local File)
-const welcomeMessage = `
-New User Registered:
----------------------
-Name: ${name}
-Email: ${email}
-Message: Welcome ${name} to Great Stack Website! Your account has been created.
----EMAIL_SEPARATOR---
-`;
-
-    const filePath = path.join(process.cwd(), "welcome_logs.txt");
-    fs.appendFileSync(filePath, welcomeMessage, "utf-8");
+    let emailStatus = "sent";
+    try {
+      await sendEmail({
+        to: email,
+        subject: `Welcome to Smart Blog, ${name}!`,
+        text: `Hi ${name},\n\nYour account has been successfully created.\n\nThank you for joining us!\n\n– Smart Blog Team`
+      });
+      console.log(`📩 Email sent to ${email}`);
+    } catch (emailError) {
+      console.error("❌ Email failed:", emailError.message || emailError);
+      emailStatus = "failed";
+    }
 
     console.log(newUser);
 
@@ -58,11 +58,11 @@ Message: Welcome ${name} to Great Stack Website! Your account has been created.
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
- 
     return res.status(200).json({
       status: "Success",
       message: "New user created and email sent",
       newUser,
+      emailStatus
     });
   } catch (err) {
     return res.status(500).json({
@@ -77,18 +77,20 @@ export const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    if (!user)
+    if (!user) {
       return res.status(404).json({
         status: "fail",
         message: "User not found. Please register first.",
       });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
+    if (!isMatch) {
       return res.status(401).json({
         status: "fail",
         message: "Incorrect password",
       });
+    }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
@@ -135,138 +137,132 @@ export const logout = (req, res) => {
   }
 };
 
-export const sendVerifyOtp = async (req, res)=>{
-    try{
-        const userId = req.userId;
-        const user = await User.findById(userId);
-        if(user.isAccountVerified){
-            return res.status(400).json({
-                status: "Fail",
-                message: "Account already verified",
-              });
-        }
-        const otp = String(Math.floor(100000 + Math.random()*900000))
-        user.verifyOTp = otp;
-        user.verifyOTpExpireAt = Date.now() + 24*60*60*1000;
-        await user.save();
-
-        //Send the OTP :
-
-        const otpMessage = `
-New OTP Sent:
----------------------
-Name: ${user.name}
-Email: ${user.email}
-OTP: ${otp}
-Message: Your account verification OTP is: ${otp}
-Time: ${new Date().toLocaleString()}
----OTP_SEPARATOR---
-`;
-
-    const filePath = path.join(process.cwd(), "otp_logs.txt");
-    fs.appendFileSync(filePath, otpMessage, "utf-8");
-
-        res.json({
-            success: true,
-            message: 'Verification OTP Sent on Email'
-        });
-
-    }catch (err) {
-        return res.status(400).json({
-          status: "Fail",
-          message: err.message,
-        });
-      }
-}
-
-export const verifyEmail = async (req,res)=>{
-
+export const sendVerifyOtp = async (req, res) => {
+  try {
     const userId = req.userId;
-    console.log("Verify email controler" ,userId);
-    const {otp} = req.body;
-    console.log(otp);
-    if(!userId || !otp){
-        return res.status(404).json({
-            status:"Fail",
-            message:"Missing Details"
-        });
-    }try{
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({
-              status: "Fail",
-              message: "User not found",
-            });
-          }
+    const user = await User.findById(userId);
 
-          if(user.verifyOTpExpireAt < Date.now()){
-            return res.status(404).json({
-                status: "Fail",
-                message: "OTP has expired",
-              });
-
-          }
-        if(user.verifyOTp === otp)
-            {
-                user.isAccountVerified = true;
-                user.verifyOTp = null;
-                user.verifyOTpExpireAt = null;
-                await user.save();
-
-                return res.status(200).json({
-                    status:true,
-                    message:"Your account is verified"
-                })
-            }
-            else{
-                res.status(404).json({
-                    status:"Fail",
-                    message:"Your account is not verified. Enter correct OTP."
-            })
-        }
-    }catch(err)
-    {
-        return res.status(400).json({
-            status: "Fail",
-            message: err.message,
-          });
+    if (user.isAccountVerified) {
+      return res.status(400).json({
+        status: "Fail",
+        message: "Account already verified",
+      });
     }
-}
 
-export const isAuthenticated = (req,res)=>{
-    try{
-        
-        return res.status(200).json({
-            success: true,
-            message: "You are authenticated and logged in"
-        })
-    }catch(err)
-    {
-        return res.status(400).json({
-            success: false,
-            message: err.message,
-          });
+    const otp = String(Math.floor(100000 + Math.random() * 900000));
+    user.verifyOTp = otp;
+    user.verifyOTpExpireAt = Date.now() + 24 * 60 * 60 * 1000;
+    await user.save();
+
+    let emailStatus = "sent";
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: `Your Smart Blog Verification OTP`,
+        text: `Hello ${user.name},\n\nYour OTP for account verification is: ${otp}\n\nThis OTP will expire in 24 hours.\n\n– Smart Blog Team`,
+      });
+      console.log(`📩 OTP Email sent to ${user.email}`);
+    } catch (emailErr) {
+      console.error("❌ OTP Email sending failed:", emailErr.message || emailErr);
+      emailStatus = "failed";
     }
-}
 
-export const sendResetOtp = async(req,res)=>{
-    const userId = req.userId;
-    try{
+    return res.status(200).json({
+      success: true,
+      message: `Verification OTP sent via email (${emailStatus})`,
+    });
+  } catch (err) {
+    return res.status(400).json({
+      status: "Fail",
+      message: err.message,
+    });
+  }
+};
 
-        const user = await User.findById(userId);
-        if(!user)
-        {
-          res.status(404).json({
-            status: false,
-            message: "User Not Found"
-          })
-        }
+export const verifyEmail = async (req, res) => {
+  const userId = req.userId;
+  console.log("Verify email controler", userId);
+  const { otp } = req.body;
+  console.log(otp);
 
-            const otp = String(Math.floor(100000 + Math.random() * 900000));
-            user.verifyOTp = otp;
-            user.verifyOTpExpireAt = Date.now() + 10 * 60 * 1000; // 10 minutes
-            await user.save();
-            const otpMessage = `
+  if (!userId || !otp) {
+    return res.status(404).json({
+      status: "Fail",
+      message: "Missing Details"
+    });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        status: "Fail",
+        message: "User not found",
+      });
+    }
+
+    if (user.verifyOTpExpireAt < Date.now()) {
+      return res.status(404).json({
+        status: "Fail",
+        message: "OTP has expired",
+      });
+    }
+
+    if (user.verifyOTp === otp) {
+      user.isAccountVerified = true;
+      user.verifyOTp = null;
+      user.verifyOTpExpireAt = null;
+      await user.save();
+
+      return res.status(200).json({
+        status: true,
+        message: "Your account is verified"
+      });
+    } else {
+      res.status(404).json({
+        status: "Fail",
+        message: "Your account is not verified. Enter correct OTP."
+      });
+    }
+  } catch (err) {
+    return res.status(400).json({
+      status: "Fail",
+      message: err.message,
+    });
+  }
+};
+
+export const isAuthenticated = (req, res) => {
+  try {
+    return res.status(200).json({
+      success: true,
+      message: "You are authenticated and logged in"
+    });
+  } catch (err) {
+    return res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+export const sendResetOtp = async (req, res) => {
+  const userId = req.userId;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      res.status(404).json({
+        status: false,
+        message: "User Not Found"
+      });
+    }
+
+    const otp = String(Math.floor(100000 + Math.random() * 900000));
+    user.verifyOTp = otp;
+    user.verifyOTpExpireAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+    await user.save();
+
+    const otpMessage = `
             New OTP Sent:
             ---------------------
             Name: ${user.name}
@@ -276,69 +272,65 @@ export const sendResetOtp = async(req,res)=>{
             Time: ${new Date().toLocaleString()}
             ---OTP_SEPARATOR---
             `;
-            
-                const filePath = path.join(process.cwd(), "otp_logs.txt");
-                fs.appendFileSync(filePath, otpMessage, "utf-8");
 
-                res.status(200).json({
-                    status:true,
-                    message : "OTP sent to registered email"
-                })
-    }catch(err)
-    {
-        return res.status(404).json({
-            status:false,
-            message:err.message
-        })
+    const filePath = path.join(process.cwd(), "otp_logs.txt");
+    fs.appendFileSync(filePath, otpMessage, "utf-8");
+
+    res.status(200).json({
+      status: true,
+      message: "OTP sent to registered email"
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: false,
+      message: err.message
+    });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+
+  if (!email || !otp || !newPassword) {
+    return res.status(404).json({
+      status: false,
+      message: "Mention all the details properly"
+    });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        status: "Fail",
+        message: "User does not exist with mentioned email id"
+      });
     }
-}
 
-export const resetPassword = async (req,res)=>{
+    if (otp === user.verifyOTp && Date.now() < user.verifyOTpExpireAt) {
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+      user.password = hashedPassword;
+      user.verifyOTp = null;
+      user.verifyOTpExpireAt = null;
 
-    const {email, otp, newPassword} = req.body;
-    
-    if(!email || !otp || !newPassword){
-        return res.status(404).json({
-            status: false,
-            message: "Mention all the details properly"
-        })
+      await user.save();
+
+      return res.status(200).json({
+        status: true,
+        message: "Your password is updated"
+      });
+    } else {
+      return res.status(200).json({
+        status: false,
+        message: "Pls enter correct otp. Murkha Manus !"
+      });
     }
-        try{
-       const user = await User.findOne({email});
-       if(!user)
-        {
-            return res.status(404).json({
-                status:"Fail",
-                message:"User does not exist with mentioned email id"
-            })
-        }
-        if(otp === user.verifyOTp && Date.now() < user.verifyOTpExpireAt)
-            {
-                const hashedPassword = await bcrypt.hash(newPassword , 12);
-                user.password = hashedPassword;
-                user.verifyOTp = null;
-                user.verifyOTpExpireAt = null;
+  } catch (err) {
+    return res.status(400).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
 
-                await user.save();
-
-                return res.status(200).json({
-                    status:true,
-                    message:"Your password is updated"
-                })
-            }
-            else{
-              return res.status(200).json({
-                    status:false,
-                    message:"Pls enter correct otp. Murkha Manus !"
-                })
-            }
-    }catch(err){
-        return res.status(400).json({
-            success:false,
-            message: err.message
-        })
-    }
-    }
- 
- //EmailJS REST API integration 
- 
+// EmailJS REST API integration
