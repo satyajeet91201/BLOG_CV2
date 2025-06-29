@@ -17,52 +17,32 @@ const Login = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    axios.defaults.withCredentials = true;
-
-    console.log("🔁 Submit triggered");
-    console.log("🔧 Mode:", state);
-    console.log("📧 Email:", email);
-    console.log("🔑 Password:", password);
-    if (state === 'Sign Up') console.log("👤 Name:", name);
-    console.log("🌐 backendUrl from context:", backendUrl);
 
     try {
-      if (state === 'Sign Up') {
-        const { data } = await axios.post(`${backendUrl}/api/auth/register`, {
-          name, email, password
-        });
+      const payload = state === 'Sign Up' ? { name, email, password } : { email, password };
+      const endpoint = state === 'Sign Up' ? '/api/auth/register' : '/api/auth/login';
 
-        if (data.status === 'Success') {
-          setIsLoggedIn(true);
-          toast.success("Registration successful!");
-          getUserData();
-          navigate('/');
-        } else {
-          toast.error(data.message);
-        }
+      const { data } = await axios.post(`${backendUrl}${endpoint}`, payload);
 
+      if (data.status === 'Success') {
+        setIsLoggedIn(true);
+        toast.success(`${state} successful!`);
+        await getUserData();
+        navigate('/');
       } else {
-        const { data } = await axios.post(`${backendUrl}/api/auth/login`, {
-          email, password
-        });
-
-        if (data.status === 'Success') {
-          setIsLoggedIn(true);
-          toast.success("Login successful!");
-          getUserData();
-          navigate('/');
-        } else {
-          toast.error(data.message);
-        }
+        toast.error(data.message || `Something went wrong during ${state}`);
       }
-
     } catch (err) {
-      console.error("❌ Error during API call:", err);
+      console.error(`❌ ${state} Error`, {
+        message: err?.message,
+        status: err?.response?.status,
+        response: err?.response?.data,
+      });
 
       if (err.response?.data?.message) {
         toast.error(err.response.data.message);
       } else {
-        toast.error("Something went wrong");
+        toast.error("An unexpected error occurred. Check the console for details.");
       }
     }
   };
