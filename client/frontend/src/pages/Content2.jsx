@@ -21,7 +21,7 @@ const Content2 = () => {
             Full Stack Developer | MERN | React | Node.js
           </p>
           <div className="mt-4 flex justify-center gap-4 text-indigo-600 dark:text-indigo-400 text-xl">
-  <a href="https://github.com/praphulla-lokhande" target="_blank" rel="noreferrer">
+  <a href="https://github.com/satyajeet91201" target="_blank" rel="noreferrer">
     <FaGithub />
   </a>
   <a href="https://in.linkedin.com/in/praphulla-lokhande-6b0806213" target="_blank" rel="noreferrer">
