@@ -47,10 +47,9 @@ const Header = () => {
         >
           Blogs
         </button>
-        <a
-        href="/Praphulla Resume-Updated.pdf"
-        download
-        className="border border-gray-500 dark:border-white rounded-full px-8 py-2.5 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all"> 📄 My Resume</a>
+        <button
+        onClick={()=>navigate('/resume')}
+        className="border border-gray-500 dark:border-white rounded-full px-8 py-2.5 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all">About Me</button>
       </div>
     </div>
   );
