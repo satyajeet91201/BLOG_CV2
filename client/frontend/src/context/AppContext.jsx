@@ -19,30 +19,25 @@ export const AppContextProvider = (props) => {
   // Debug to ensure backendUrl is loading properly
   console.log("🌐 Loaded backendUrl from .env:", backendUrl);
 
-  const getAuthState = async () => {
-  try {
-    const { data } = await axios.get(`${backendUrl}/api/auth/is-auth`);
-    console.log("🔐 Auth State Response:", data);
-
-    if (data.success) {
-      setIsLoggedIn(true);
-      await getUserData();
-    } else {
-      setIsLoggedIn(false);
-      setUserData(null);
-    }
-  } catch (error) {
-    console.error("❌ getAuthState Error:", {
-      message: error.message,
-      status: error?.response?.status,
-      data: error?.response?.data,
+  const getAuthState =async ()=>{
+    try {
+        const { data } = await axios.get(`${backendUrl}/api/auth/is-auth`, {
+      withCredentials: true,
     });
+        if(data.success){
+          setIsLoggedIn(true);
+          await getUserData();
+        }else{
+          setIsLoggedIn(false);
+          setUserData(null);
+        }
+      } catch (error) {
+        toast.error("Something went wrongg: " + error.message); // ✅ Corrected error usage
+        setIsLoggedIn(false);
+        setUserData(null);
+      }
 
-    setIsLoggedIn(false);
-    setUserData(null);
   }
-};
-
 
   const resendOtp = async ()=>{
     try{
@@ -68,7 +63,7 @@ export const AppContextProvider = (props) => {
         ? setUserData(data.userData)
         : toast.error(data.message);
     } catch (error) {
-      toast.error("Something went wrong: " + error.message); // ✅ Corrected error usage
+      toast.error("Something went wrongg: " + error.message); // ✅ Corrected error usage
     }
   };
 
