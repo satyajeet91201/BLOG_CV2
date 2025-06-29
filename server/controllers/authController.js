@@ -332,5 +332,3 @@ export const resetPassword = async (req, res) => {
     });
   }
 };
-
-// EmailJS REST API integration
