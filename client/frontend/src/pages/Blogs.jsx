@@ -13,7 +13,7 @@ const Blogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:7000/api/blogs", {
+        const res = await axios.get("https://blog-cv-2.vercel.app/api/blogs", {
           withCredentials: true,
         });
         setBlogs(res.data.blogs);
