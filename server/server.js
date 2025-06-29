@@ -17,12 +17,12 @@ const port = process.env.PORT || 7000;
 connectDb();
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Frontend URL
-    credentials: true               // 👈 Allow cookies and headers
-  }));
-
-
-
+  origin: [
+    'http://localhost:5173',
+    'https://blog-cv2-frontt.vercel.app'
+  ],
+  credentials: true
+}));
 
 
 // Serve uploaded images statically
