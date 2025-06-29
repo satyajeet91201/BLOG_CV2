@@ -18,8 +18,8 @@ connectDb();
 
 app.use(cors({
   origin: [
-    'http://localhost:5173',
     'https://blog-cv2-frontt.vercel.app',
+     'http://localhost:5173',
     'https://blog-cv2-frontt-git-main-praphullakumar-lokhandes-projects.vercel.app'
   ],
   credentials: true
