@@ -180,13 +180,10 @@ const Content2 = () => {
 
 
         {/* Resume Download */}
-        <a
-          href="/resume.pdf"
-          className="mt-6 px-6 py-3 border-2 border-indigo-600 dark:border-indigo-400 text-indigo-600 dark:text-indigo-400 font-medium rounded-full hover:bg-indigo-600 dark:hover:bg-indigo-500 hover:text-white transition-all"
-          download
-        >
-          Download Resume
-        </a>
+       <a
+        href="/Praphulla Resume-Updated.pdf"
+        download
+        className="border border-gray-500 dark:border-white rounded-full px-8 py-2.5 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all"> 📄 My Resume</a>
       </div>
     </>
   );
