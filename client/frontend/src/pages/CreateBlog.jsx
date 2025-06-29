@@ -14,7 +14,7 @@ const CreateBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:7000/api/blogs/create", formData, {
+      await axios.post("https://blog-cv-2.vercel.app/api/blogs/create", formData, {
         withCredentials: true,
       });
       navigate('/blogs');
