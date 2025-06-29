@@ -28,11 +28,10 @@ app.use(cors({
 
 // Serve uploaded images statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-
-app.use(express.json()); // ✅ Required for parsing JSON body
 app.use(cookieParser());
 // app.use(cors({ credentials: true })); // ✅ Works for cookies
+app.use(express.json()); // ✅ Required for parsing JSON body
+
 
 app.get('/', (req, res) => {
     res.send('App Working Properly');
