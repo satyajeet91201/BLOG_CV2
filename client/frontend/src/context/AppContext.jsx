@@ -9,7 +9,7 @@ export const AppContextProvider = (props) => {
 
   const navigate = useNavigate();
 
-  axios.defaults.withCredentials= true;
+  axios.defaults.withCredentials = true;
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
