@@ -6,19 +6,23 @@ import Navbar from '../components/Navbar';
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
-  const [expandedBlogId, setExpandedBlogId] = useState(null); // state to track expanded blog
+  const [expandedBlogId, setExpandedBlogId] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ loading state
+
   const { userData } = useContext(AppContent);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      try { 
+      try {
         const res = await axios.get("https://blog-cv-2.vercel.app/api/blogs", {
           withCredentials: true,
         });
         setBlogs(res.data.blogs);
       } catch (error) {
         console.error("Failed to fetch blogs:", error);
+      } finally {
+        setLoading(false); // ✅ hide loader after fetch
       }
     };
 
@@ -32,6 +36,18 @@ const Blogs = () => {
   const toggleReadMore = (id) => {
     setExpandedBlogId(prev => (prev === id ? null : id));
   };
+
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="flex items-center justify-center h-screen bg-white dark:bg-gray-900">
+          <div className="loader mb-4"></div>
+          <p className="text-gray-700 dark:text-gray-200 text-sm mt-2">Loading blogs...</p>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -66,15 +82,13 @@ const Blogs = () => {
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                   By {blog?.author?.name || "Unknown"} - {new Date(blog.createdAt).toLocaleString()}
                 </p>
-                <p
-                  className={`mb-2 ${!isExpanded ? "line-clamp-3" : ""}`}
-                >
+                <p className={`mb-2 ${!isExpanded ? "line-clamp-3" : ""}`}>
                   {blog.description || "No description provided."}
                 </p>
                 {blog.description && blog.description.length > 100 && (
                   <button
                     onClick={(e) => {
-                      e.stopPropagation(); // prevent parent onClick
+                      e.stopPropagation();
                       toggleReadMore(blog._id);
                     }}
                     className="text-blue-600 dark:text-blue-400 text-sm hover:underline"
