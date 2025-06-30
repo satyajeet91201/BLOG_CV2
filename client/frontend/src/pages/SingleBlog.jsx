@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AppContent } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
+import { parseMarkdown } from '../context/parseMarkdown';
 
 const SingleBlog = () => {
   const { id } = useParams();
