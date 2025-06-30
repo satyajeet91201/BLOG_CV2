@@ -72,7 +72,7 @@ const Blogs = () => {
             const isExpanded = expandedBlogId === blog._id;
             return (
               <div
-                onClick={() => navigate(/blog/${blog._id})}
+                onClick={() => navigate(`/blog/${blog._id}`)}
                 key={blog._id}
                 className="border p-4 rounded-md mb-4 bg-white dark:bg-gray-800 dark:border-gray-600 shadow-sm hover:shadow-md transition cursor-pointer"
               >
@@ -82,7 +82,7 @@ const Blogs = () => {
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                   By {blog?.author?.name || "Unknown"} - {new Date(blog.createdAt).toLocaleString()}
                 </p>
-                <p className={mb-2 ${!isExpanded ? "line-clamp-3" : ""}}>
+                <p className={`mb-2 ${!isExpanded ? "line-clamp-3" : ""}`}>
                   {blog.description || "No description provided."}
                 </p>
                 {blog.description && blog.description.length > 100 && (
