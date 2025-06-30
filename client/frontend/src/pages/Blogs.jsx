@@ -3,7 +3,8 @@ import axios from 'axios';
 import { AppContent } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { parseMarkdown } from '../utils/parseMarkdown';
+import { parseMarkdown } from '../context/parseMarkdown';
+
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
