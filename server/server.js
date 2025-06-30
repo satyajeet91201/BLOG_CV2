@@ -16,6 +16,9 @@ const app = express();
 const port = process.env.PORT || 7000;
 connectDb();
 
+
+//cors resolving section
+
 app.use(cors({
   origin: [
     'https://saty-writes.vercel.app',
