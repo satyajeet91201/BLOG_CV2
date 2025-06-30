@@ -3,12 +3,12 @@ import axios from 'axios';
 import { AppContent } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { parseMarkdown } from '../utils/parseMarkdown';
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [expandedBlogId, setExpandedBlogId] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ loading state
-
+  const [loading, setLoading] = useState(true);
   const { userData } = useContext(AppContent);
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ const Blogs = () => {
       } catch (error) {
         console.error("Failed to fetch blogs:", error);
       } finally {
-        setLoading(false); // ✅ hide loader after fetch
+        setLoading(false);
       }
     };
 
@@ -41,9 +41,9 @@ const Blogs = () => {
     return (
       <>
         <Navbar />
-        <div className="flex items-center justify-center h-screen bg-white dark:bg-gray-900">
-          <div className="loader mb-4"></div>
-          <p className="text-gray-700 dark:text-gray-200 text-sm mt-2">Loading blogs...</p>
+        <div className="flex flex-col items-center justify-center h-screen bg-white dark:bg-gray-900">
+          <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full mb-4"></div>
+          <p className="text-gray-700 dark:text-gray-200 text-sm">Loading blogs...</p>
         </div>
       </>
     );
@@ -82,9 +82,10 @@ const Blogs = () => {
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                   By {blog?.author?.name || "Unknown"} - {new Date(blog.createdAt).toLocaleString()}
                 </p>
-                <p className={`mb-2 ${!isExpanded ? "line-clamp-3" : ""}`}>
-                  {blog.description || "No description provided."}
-                </p>
+                <div
+                  className={`mb-2 ${!isExpanded ? "line-clamp-3" : ""}`}
+                  dangerouslySetInnerHTML={{ __html: parseMarkdown(blog.description) }}
+                ></div>
                 {blog.description && blog.description.length > 100 && (
                   <button
                     onClick={(e) => {
