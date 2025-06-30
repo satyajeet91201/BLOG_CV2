@@ -26,7 +26,7 @@ app.use(cors({
   credentials: true
 }));
 
-
+//here we go
 // Serve uploaded images statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
