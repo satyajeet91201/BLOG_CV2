@@ -159,7 +159,7 @@ const SingleBlog = () => {
           </>
         )}
 
-        {/* Like Button */}
+        {/* Like Button  */}
         <div className="mb-4">
           <button
             onClick={handleLike}
