@@ -4,7 +4,6 @@ import axios from 'axios';
 import { AppContent } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
-import { parseMarkdown } from '../context/parseMarkdown';
 
 const SingleBlog = () => {
   const { id } = useParams();
@@ -21,7 +20,7 @@ const SingleBlog = () => {
 
   const fetchBlog = async () => {
     try {
-      const res = await axios.get(`${backendUrl}/api/blogs/${id}`, {
+      const res = await axios.get(${backendUrl}/api/blogs/${id}, {
         withCredentials: true,
       });
       setBlog(res.data.blog);
@@ -37,7 +36,7 @@ const SingleBlog = () => {
 
   const handleLike = async () => {
     try {
-      await axios.put(`${backendUrl}/api/blogs/like/${id}`, {}, { withCredentials: true });
+      await axios.put(${backendUrl}/api/blogs/like/${id}, {}, { withCredentials: true });
       fetchBlog();
     } catch (err) {
       toast.error("Failed to like blog");
@@ -48,7 +47,7 @@ const SingleBlog = () => {
     if (!newComment.trim()) return;
     try {
       await axios.post(
-        `${backendUrl}/api/blogs/comment/${id}`,
+        ${backendUrl}/api/blogs/comment/${id},
         { content: newComment },
         { withCredentials: true }
       );
@@ -75,7 +74,7 @@ const SingleBlog = () => {
   const saveChanges = async () => {
     try {
       const res = await axios.put(
-        `${backendUrl}/api/blogs/edit/${id}`,
+        ${backendUrl}/api/blogs/edit/${id},
         {
           title: editedTitle,
           description: editedDescription,
@@ -94,7 +93,7 @@ const SingleBlog = () => {
 
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(`${backendUrl}/api/blogs/${id}`, {
+      const res = await axios.delete(${backendUrl}/api/blogs/${id}, {
         withCredentials: true,
       });
       if (res.data.success) {
@@ -156,10 +155,7 @@ const SingleBlog = () => {
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               By {blog.author?.name || 'Unknown'} on {new Date(blog.createdAt).toLocaleDateString()}
             </p>
-            <div
-  className="mb-6 leading-relaxed"
-  dangerouslySetInnerHTML={{ __html: parseMarkdown(blog.description) }}
-></div>
+            <p className="mb-6">{blog.description}</p>
           </>
         )}
 
@@ -213,4 +209,4 @@ const SingleBlog = () => {
   );
 };
 
-export default SingleBlog;
+export default SingleBlog; 
