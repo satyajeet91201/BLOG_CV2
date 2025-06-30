@@ -43,7 +43,7 @@ const Blogs = () => {
         <Navbar />
         <div className="flex items-center justify-center h-screen bg-white dark:bg-gray-900">
           <div className="loader mb-4"></div>
-          <p className="text-gray-700 dark:text-gray-200 text-sm mt-2">Loading blogs...</p>
+          <p className="text-gray-700 dark:text-gray-200 text-sm mt-2">Loading blogs....</p>
         </div>
       </>
     );
