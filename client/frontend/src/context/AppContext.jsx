@@ -19,25 +19,26 @@ export const AppContextProvider = (props) => {
   // Debug to ensure backendUrl is loading properly
   console.log("🌐 Loaded backendUrl from .env:", backendUrl);
 
-  const getAuthState =async ()=>{
-    try {
-        const { data } = await axios.get(`${backendUrl}/api/auth/is-auth`, {
+  const getAuthState = async () => {
+  try {
+    const { data } = await axios.get(`${backendUrl}/api/auth/is-auth`, {
       withCredentials: true,
     });
-        if(data.success){
-          setIsLoggedIn(true);
-          await getUserData();
-        }else{
-          setIsLoggedIn(false);
-          setUserData(null);
-        }
-      } catch (error) {
-        toast.error("Something went wrongg: " + error.message); // ✅ Corrected error-usage
-        setIsLoggedIn(false);
-        setUserData(null);
-      }
 
+    if (data.success) {
+      setIsLoggedIn(true);
+      await getUserData();
+    } else {
+      setIsLoggedIn(false);
+      setUserData(null);
+    }
+  } catch (error) {
+    toast.error("Something went wrongg: " + error.message);
+    setIsLoggedIn(false);
+    setUserData(null);
   }
+};
+
 
   const resendOtp = async ()=>{
     try{
