@@ -40,18 +40,22 @@ const Navbar = () => {
     }
   };
 
-  const handleChangePassword = async () => {
+  
+const handleChangePassword = async () => {
+  console.log("🔄 Change Password clicked");
+
   try {
     const { data } = await axios.post(
-      `${backendUrl}/api/auth/send-reset-otp`,
-      {}, // empty body since backend uses req.userId from cookie
-      {
-        withCredentials: true, // ✅ ensure cookie is sent
-      }
+      backendUrl + '/api/auth/send-reset-otp',
+      {},
+      { withCredentials: true }
     );
 
-    if (data.success) { // ✅ check for correct flag from backend
+    console.log("✅ OTP response:", data);
+
+    if (data.success) { // ✅ Make sure backend sends "success", not "status"
       toast.success(data.message);
+      console.log("📍 Navigating to /reset-password");
       navigate('/reset-password');
     } else {
       toast.error(data.message || "Something went wrong");
