@@ -247,13 +247,14 @@ export const isAuthenticated = (req, res) => {
 };
 
 export const sendResetOtp = async (req, res) => {
-  const userId = req.userId;
   try {
+    const userId = req.userId;
     const user = await User.findById(userId);
+
     if (!user) {
-      res.status(404).json({
-        status: false,
-        message: "User Not Found"
+      return res.status(404).json({
+        success: false,
+        message: "User Not Found",
       });
     }
 
@@ -262,28 +263,28 @@ export const sendResetOtp = async (req, res) => {
     user.verifyOTpExpireAt = Date.now() + 10 * 60 * 1000; // 10 minutes
     await user.save();
 
-    const otpMessage = `
-            New OTP Sent:
-            ---------------------
-            Name: ${user.name}
-            Email: ${user.email}
-            OTP: ${otp}
-            Message: Your password reset verification OTP is: ${otp}
-            Time: ${new Date().toLocaleString()}
-            ---OTP_SEPARATOR---
-            `;
+    let emailStatus = "sent";
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: `Smart Blog Password Reset OTP`,
+        text: `Hello ${user.name},\n\nYour OTP for password reset is: ${otp}\n\nThis OTP will expire in 10 minutes.\n\n– Smart Blog Team`,
+      });
+      console.log(`📩 Password reset OTP sent to ${user.email}`);
+    } catch (emailErr) {
+      console.error("❌ OTP email sending failed:", emailErr.message || emailErr);
+      emailStatus = "failed";
+    }
 
-    const filePath = path.join(process.cwd(), "otp_logs.txt");
-    fs.appendFileSync(filePath, otpMessage, "utf-8");
-
-    res.status(200).json({
-      status: true,
-      message: "OTP sent to registered email"
+    return res.status(200).json({
+      success: true,
+      message: `Password reset OTP sent via email (${emailStatus})`,
     });
   } catch (err) {
-    return res.status(404).json({
-      status: false,
-      message: err.message
+    console.error("🔴 sendResetOtp Error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error: " + err.message,
     });
   }
 };
