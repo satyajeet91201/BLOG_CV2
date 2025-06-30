@@ -32,7 +32,7 @@ export const AppContextProvider = (props) => {
           setUserData(null);
         }
       } catch (error) {
-        toast.error("Something went wrongg: " + error.message); // ✅ Corrected error usage
+        toast.error("Something went wrongg: " + error.message); // ✅ Corrected error-usage
         setIsLoggedIn(false);
         setUserData(null);
       }
