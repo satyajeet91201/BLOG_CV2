@@ -5,9 +5,9 @@ export const userAuth = async (req, res, next) => {
   console.log("📦 Cookie Token:", token);
 
   if (!token) {
-    return res.status(400).json({
+    return res.status(200).json({
       success: false,
-      msg: "Not Authorized",
+      message: "Not logged in",
     });
   }
 
@@ -25,9 +25,9 @@ export const userAuth = async (req, res, next) => {
       });
     }
   } catch (err) {
-    return res.status(404).json({
+    return res.status(401).json({
       success: false,
-      message: err.message,
+      message: "Invalid or expired token",
     });
   }
 };
