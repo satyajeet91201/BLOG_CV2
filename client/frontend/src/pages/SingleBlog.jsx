@@ -155,7 +155,10 @@ const SingleBlog = () => {
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               By {blog.author?.name || 'Unknown'} on {new Date(blog.createdAt).toLocaleDateString()}
             </p>
-            <p className="mb-6">{blog.description}</p>
+            <div
+  className="mb-6 leading-relaxed"
+  dangerouslySetInnerHTML={{ __html: parseMarkdown(blog.description) }}
+></div>
           </>
         )}
 
