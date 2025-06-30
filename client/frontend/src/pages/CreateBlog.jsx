@@ -40,9 +40,9 @@ const CreateBlog = () => {
           />
           <textarea
             name="description"
-            placeholder="Blog Description"
+            placeholder="Blog Description (supports *italic*, **bold**, paragraphs)"
             className="border px-4 py-2 rounded bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
-            rows="5"
+            rows="10"
             value={formData.description}
             onChange={handleChange}
           />
