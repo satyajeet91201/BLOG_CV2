@@ -41,16 +41,27 @@ const Navbar = () => {
   };
 
   const handleChangePassword = async () => {
-    try {
-      const { data } = await axios.post(backendUrl + '/api/auth/send-reset-otp');
-      if (data.status) {
-        toast.success(data.message);
-        navigate('/reset-password');
+  try {
+    const { data } = await axios.post(
+      `${backendUrl}/api/auth/send-reset-otp`,
+      {}, // empty body since backend uses req.userId from cookie
+      {
+        withCredentials: true, // ✅ ensure cookie is sent
       }
-    } catch (error) {
-      toast.error(error.message);
+    );
+
+    if (data.success) { // ✅ check for correct flag from backend
+      toast.success(data.message);
+      navigate('/reset-password');
+    } else {
+      toast.error(data.message || "Something went wrong");
     }
-  };
+  } catch (error) {
+    console.error("🔴 Change password error:", error);
+    toast.error(error.response?.data?.message || error.message);
+  }
+};
+
 
   const sendVerificationOtp = async () => {
     try {
