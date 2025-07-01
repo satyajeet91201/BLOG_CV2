@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { AppContent } from '../context/AppContext';
 
 const CreateBlog = () => {
+  const { backendUrl } = useContext(AppContent);
   const [formData, setFormData] = useState({ title: '', description: '' });
+  const [thumbnail, setThumbnail] = useState(null); // ✅ New state for file
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -13,9 +16,20 @@ const CreateBlog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const data = new FormData();
+    data.append('title', formData.title);
+    data.append('description', formData.description);
+    if (thumbnail) {
+      data.append('thumbnail', thumbnail); // ✅ Append file
+    }
+
     try {
-      await axios.post("https://blog-cv-2.vercel.app/api/blogs/create", formData, {
+      await axios.post(`${backendUrl}/api/blogs/create`, data, {
         withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       navigate('/blogs');
     } catch (err) {
@@ -40,12 +54,25 @@ const CreateBlog = () => {
           />
           <textarea
             name="description"
-            placeholder="Blog Description (supports *italic*, **bold**, paragraphs)"
+            placeholder="Blog Description"
             className="border px-4 py-2 rounded bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
             rows="10"
             value={formData.description}
             onChange={handleChange}
           />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setThumbnail(e.target.files[0])}
+            className="border px-4 py-2 rounded bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+          />
+          {thumbnail && (
+  <img
+    src={URL.createObjectURL(thumbnail)}
+    alt="Thumbnail Preview"
+    className="w-full h-64 object-cover rounded border border-gray-300 dark:border-gray-600"
+  />
+)}
           <button
             type="submit"
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
