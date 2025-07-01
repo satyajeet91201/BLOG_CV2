@@ -12,6 +12,10 @@ const blogSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  thumbnail: {
+  type: String,
+  required: false, // or true if thumbnail is mandatory
+},
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
