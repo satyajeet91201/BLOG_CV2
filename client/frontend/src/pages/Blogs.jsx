@@ -7,22 +7,22 @@ import Navbar from '../components/Navbar';
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [expandedBlogId, setExpandedBlogId] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ loading state
+  const [loading, setLoading] = useState(true);
 
-  const { userData } = useContext(AppContent);
+  const { userData, backendUrl } = useContext(AppContent);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("https://blog-cv-2.vercel.app/api/blogs", {
+        const res = await axios.get(backendUrl + '/api/blogs', {
           withCredentials: true,
         });
         setBlogs(res.data.blogs);
       } catch (error) {
         console.error("Failed to fetch blogs:", error);
       } finally {
-        setLoading(false); // ✅ hide loader after fetch
+        setLoading(false);
       }
     };
 
@@ -74,8 +74,16 @@ const Blogs = () => {
               <div
                 onClick={() => navigate(`/blog/${blog._id}`)}
                 key={blog._id}
-                className="border p-4 rounded-md mb-4 bg-white dark:bg-gray-800 dark:border-gray-600 shadow-sm hover:shadow-md transition cursor-pointer"
+                className="border p-4 rounded-md mb-6 bg-white dark:bg-gray-800 dark:border-gray-600 shadow-sm hover:shadow-md transition cursor-pointer"
               >
+                {/* Thumbnail */}
+                {blog.thumbnail && (
+                  <img
+                    src={`${backendUrl}/uploads/${blog.thumbnail}`}
+                    alt="Blog Thumbnail"
+                    className="w-full h-52 object-cover rounded-md mb-4"
+                  />
+                )}
                 <h2 className="text-xl font-bold mb-2 text-indigo-700 dark:text-indigo-300">
                   {blog.title}
                 </h2>
@@ -109,5 +117,3 @@ const Blogs = () => {
 };
 
 export default Blogs;
-
-
