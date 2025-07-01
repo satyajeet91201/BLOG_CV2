@@ -40,8 +40,7 @@ const Navbar = () => {
     }
   };
 
-  
-const handleChangePassword = async () => {
+  const handleChangePassword = async () => {
   console.log("🔄 Change Password clicked");
 
   try {
