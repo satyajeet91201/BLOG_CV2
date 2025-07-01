@@ -251,11 +251,16 @@ const SingleBlog = () => {
         )}
         {blog.thumbnail && (
   <img
-    src={`${backendUrl}/uploads/${blog.thumbnail}`}
+    src={
+      blog.thumbnail.startsWith('http')
+        ? blog.thumbnail // If it's a URL, use directly
+        : `${backendUrl}/uploads/${blog.thumbnail}` // Otherwise, assume it's a file upload
+    }
     alt="thumbnail"
     className="w-full max-h-64 object-contain rounded-lg mb-6"
   />
 )}
+
 
 
         {/* Blog Content Display or Edit Form */}
