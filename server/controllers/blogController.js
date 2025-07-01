@@ -45,8 +45,16 @@ export const getAllBlogs = async (req, res) => {
 export const getSingleBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id)
-      .populate("author", "name email")
-      .populate("comments.user", "name"); // ✅ this is the key line
+      .populate("author", "name email") // Populates the blog author
+      // --- START THE CORRECT POPULATE ---
+      .populate({
+        path: 'comments', // First, populate the actual Comment documents referenced in the Blog's comments array
+        populate: {
+          path: 'userId', // Then, within each Comment document, populate the 'userId' field
+          select: 'name' // And from the User document, only select the 'name' field
+        }
+      });
+      // --- END THE CORRECT POPULATE ---
 
     if (!blog) {
       return res.status(404).json({ success: false, message: "Blog not found" });
@@ -54,15 +62,15 @@ export const getSingleBlog = async (req, res) => {
 
     res.status(200).json({ success: true, blog });
   } catch (err) {
+    console.error("Error in getSingleBlog:", err); // Add proper error logging
     res.status(500).json({ success: false, message: err.message });
   }
 };
 
-
 // Like or Unlike blog
 export const likeBlog = async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id);
+    const blog = await Blog.findById(req.params.id).populate("author").populate("comments.user");
     if (!blog) return res.status(404).json({ success: false, message: "Blog not found" });
 
     const userId = req.userId;
@@ -75,11 +83,18 @@ export const likeBlog = async (req, res) => {
     }
 
     await blog.save();
-    res.status(200).json({ success: true, likes: blog.likes.length });
+
+    // Refetch populated blog (to get updated likes, comments, etc.)
+    const updatedBlog = await Blog.findById(req.params.id)
+      .populate("author")
+      .populate("comments.user");
+
+    res.status(200).json({ success: true, blog: updatedBlog });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
 
 // Add a comment
 export const addComment = async (req, res) => {
