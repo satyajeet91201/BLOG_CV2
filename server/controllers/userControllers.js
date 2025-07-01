@@ -17,35 +17,31 @@ export const getAllUsers = async (req,res)=>{
 
 export const getUserData = async(req,res)=>{
     try{
-    const userId = req.userId;
-    const user = await User.findById(userId);
+        const userId = req.userId; // Assuming req.userId is correctly populated by your auth middleware
+        const user = await User.findById(userId);
 
-    if(!user)
-        {
+        if(!user) {
             return res.status(404).json({
                 status: "Fail",
                 message: "User not found"
-            })
+            });
         }
 
         return res.status(200).json({
             status:"Success",
             userData:{
+                _id: user._id, // <--- ADD THIS LINE! This is the missing piece!
                 Name: user.name,
                 IsVerified : user.isAccountVerified,
                 Email: user.email,
-                role:user.role
-
+                role: user.role
             }
-
-        })
+        });
 
     }catch(err){
-        return res.status(404).json({
+        return res.status(500).json({ // Changed to 500 for server errors
             status: "Fail",
             message: err.message
-        })
+        });
     }
-    
-
 }
