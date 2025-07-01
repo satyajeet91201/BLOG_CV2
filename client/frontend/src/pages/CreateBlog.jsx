@@ -7,7 +7,8 @@ import { AppContent } from '../context/AppContext';
 const CreateBlog = () => {
   const { backendUrl } = useContext(AppContent);
   const [formData, setFormData] = useState({ title: '', description: '' });
-  const [thumbnail, setThumbnail] = useState(null); // ✅ New state for file
+  const [thumbnail, setThumbnail] = useState(null); // local file
+  const [imageUrl, setImageUrl] = useState(''); // URL input
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,8 +21,11 @@ const CreateBlog = () => {
     const data = new FormData();
     data.append('title', formData.title);
     data.append('description', formData.description);
+
     if (thumbnail) {
-      data.append('thumbnail', thumbnail); // ✅ Append file
+      data.append('thumbnail', thumbnail); // priority to file
+    } else if (imageUrl) {
+      data.append('imageUrl', imageUrl); // for URL uploads (optional: handled in backend)
     }
 
     try {
@@ -33,7 +37,7 @@ const CreateBlog = () => {
       });
       navigate('/blogs');
     } catch (err) {
-      console.error("Blog creation failed", err);
+      console.error('Blog creation failed', err);
     }
   };
 
@@ -60,19 +64,39 @@ const CreateBlog = () => {
             value={formData.description}
             onChange={handleChange}
           />
+
+          {/* File Upload */}
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setThumbnail(e.target.files[0])}
+            onChange={(e) => {
+              setThumbnail(e.target.files[0]);
+              setImageUrl(''); // clear image URL if file selected
+            }}
             className="border px-4 py-2 rounded bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
           />
-          {thumbnail && (
-  <img
-    src={URL.createObjectURL(thumbnail)}
-    alt="Thumbnail Preview"
-    className="w-full h-64 object-cover rounded border border-gray-300 dark:border-gray-600"
-  />
-)}
+
+          {/* OR Link from URL */}
+          <input
+            type="text"
+            placeholder="Or paste image URL here"
+            value={imageUrl}
+            onChange={(e) => {
+              setImageUrl(e.target.value);
+              setThumbnail(null); // clear file if URL entered
+            }}
+            className="border px-4 py-2 rounded bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+          />
+
+          {/* Preview */}
+          {(thumbnail || imageUrl) && (
+            <img
+              src={thumbnail ? URL.createObjectURL(thumbnail) : imageUrl}
+              alt="Thumbnail Preview"
+              className="w-full h-64 object-cover rounded border border-gray-300 dark:border-gray-600"
+            />
+          )}
+
           <button
             type="submit"
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
