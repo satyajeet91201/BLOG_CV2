@@ -16,12 +16,9 @@ const app = express();
 const port = process.env.PORT || 7000;
 connectDb();
 
-
-//cors resolving section
-
 app.use(cors({
   origin: [
-    'https://saty-writes.vercel.app',
+    'https://blog-cv2-frontt.vercel.app',
     'https://satyawrites.netlify.app',
      'http://localhost:5173',
     'https://blog-cv2-frontt-git-main-praphullakumar-lokhandes-projects.vercel.app'
@@ -31,7 +28,8 @@ app.use(cors({
 
 //here we go
 // Serve uploaded images statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
 app.use(cookieParser());
 // app.use(cors({ credentials: true })); // ✅ Works for cookies
 app.use(express.json()); // ✅ Required for parsing JSON body
@@ -39,6 +37,7 @@ app.use(express.json()); // ✅ Required for parsing JSON body
 
 app.get('/', (req, res) => {
     res.send('App Working Properly');
+    console.log(req.url);
 });
 
 app.use('/api/blogs', blogRouter);
