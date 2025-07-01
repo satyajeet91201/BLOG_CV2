@@ -249,6 +249,14 @@ const SingleBlog = () => {
             </button>
           </div>
         )}
+        {blog.thumbnail && (
+  <img
+    src={`${backendUrl}/uploads/${blog.thumbnail}`}
+    alt="thumbnail"
+    className="w-full max-h-64 object-contain rounded-lg mb-6"
+  />
+)}
+
 
         {/* Blog Content Display or Edit Form */}
         {isEditing ? (
