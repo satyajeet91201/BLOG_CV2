@@ -6,7 +6,7 @@ import User from '../models/userModel.js';
 // Create blog (admin only)
 export const createBlog = async (req, res) => {
   const { title, subtitle, description, category } = req.body;
-
+  const thumbnail = req.file?.filename;
   try {
     const user = await User.findById(req.userId);
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
@@ -21,6 +21,7 @@ export const createBlog = async (req, res) => {
       subtitle,
       description,
       category,
+      thumbnail,
       author: req.userId,
       isPublished: true,
     });
