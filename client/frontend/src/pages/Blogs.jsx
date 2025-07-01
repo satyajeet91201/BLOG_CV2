@@ -70,20 +70,26 @@ const Blogs = () => {
         ) : (
           blogs.map((blog) => {
             const isExpanded = expandedBlogId === blog._id;
+            const isExternalUrl = blog.thumbnail?.startsWith('http');
+
             return (
               <div
                 onClick={() => navigate(`/blog/${blog._id}`)}
                 key={blog._id}
                 className="border p-4 rounded-md mb-6 bg-white dark:bg-gray-800 dark:border-gray-600 shadow-sm hover:shadow-md transition cursor-pointer"
               >
-                {/* Thumbnail */}
+                {/* ✅ Handle both local and URL-based thumbnails */}
                 {blog.thumbnail && (
                   <img
-                    src={`${backendUrl}/uploads/${blog.thumbnail}`}
+                    src={isExternalUrl ? blog.thumbnail : `${backendUrl}/uploads/${blog.thumbnail}`}
                     alt="Blog Thumbnail"
                     className="w-full h-52 object-cover rounded-md mb-4"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
                   />
                 )}
+
                 <h2 className="text-xl font-bold mb-2 text-indigo-700 dark:text-indigo-300">
                   {blog.title}
                 </h2>
