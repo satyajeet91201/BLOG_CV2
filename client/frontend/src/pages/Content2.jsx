@@ -131,7 +131,7 @@ const Content2 = () => {
     <>
       AI-based stock price prediction using news sentiment (TensorFlow.js, React, Node).{' '}
       <a
-        href="https://github.com/satyajeet91201/SRM-Final"
+        href="https://github.com/satyajeet91201/BLOG_CV2"
         target="_blank"
         rel="noopener noreferrer"
         className="text-indigo-600 dark:text-indigo-300 underline ml-1"
