@@ -5,13 +5,15 @@ import User from '../models/userModel.js';
 
 // Create blog (admin only)
 export const createBlog = async (req, res) => {
-  const { title, subtitle, description, category } = req.body;
-  const thumbnail = req.file?.filename;
+  const { title, subtitle, description, category, imageUrl } = req.body;
+
+  // Determine the thumbnail: file upload or image URL
+  const thumbnail = req.file?.filename || imageUrl;
+
   try {
     const user = await User.findById(req.userId);
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
-    // Only allow if email is admin's email (you can change this)
     if (user.role !== "admin") {
       return res.status(403).json({ success: false, message: "Only admin can create blogs" });
     }
@@ -21,16 +23,18 @@ export const createBlog = async (req, res) => {
       subtitle,
       description,
       category,
-      thumbnail,
+      thumbnail, // Can be filename (from req.file) or imageUrl
       author: req.userId,
       isPublished: true,
     });
 
     res.status(201).json({ success: true, message: "Blog created", blog });
   } catch (err) {
+    console.error("Blog creation error:", err);
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
 
 // Get all blogs
 export const getAllBlogs = async (req, res) => {
