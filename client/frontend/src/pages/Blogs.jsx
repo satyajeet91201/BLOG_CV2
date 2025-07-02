@@ -55,7 +55,7 @@ const Blogs = () => {
       <div className="p-4 pt-20 mt-10 max-w-4xl mx-auto text-gray-800 dark:text-white">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-3xl font-semibold">All Blogs</h1>
-          {userData?.role === "admin" && (
+          {(userData?.role === "admin" || userData?.role === "main-admin") && (
             <button
               onClick={handleCreateBlog}
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"

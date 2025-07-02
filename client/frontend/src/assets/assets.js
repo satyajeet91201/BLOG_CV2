@@ -6,7 +6,7 @@ import arrow_icon from './arrow_icon.svg';
 import mail_icon from './mail_icon.svg'
 import person_icon from './person_icon.svg'
 import profile from './profile.jpg'
-import profile2 from './profile2.jpg'
+import profile2 from './profile2.png'
 import header_img2 from './header2.jpg'
 import header_img3 from './header3.jpg'
 

@@ -16,6 +16,10 @@ const blogSchema = new mongoose.Schema({
   type: String,
   required: false, // or true if thumbnail is mandatory
 },
+youtubeUrl:{
+      type: String,
+  required: false, 
+},
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",

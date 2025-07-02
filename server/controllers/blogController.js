@@ -5,17 +5,20 @@ import User from '../models/userModel.js';
 
 // Create blog (admin only)
 export const createBlog = async (req, res) => {
-  const { title, subtitle, description, category, imageUrl } = req.body;
+  const { title, subtitle, description, category, imageUrl, youtubeUrl } = req.body;
 
-  // Determine the thumbnail: file upload or image URL
+  if (!title || !description) {
+    return res.status(400).json({ success: false, message: "Title and description are required." });
+  }
+
   const thumbnail = req.file?.filename || imageUrl;
 
   try {
     const user = await User.findById(req.userId);
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
-    if (user.role !== "admin") {
-      return res.status(403).json({ success: false, message: "Only admin can create blogs" });
+    if (!["admin", "main-admin"].includes(user.role)) {
+      return res.status(403).json({ success: false, message: "Only admins can create blogs" });
     }
 
     const blog = await Blog.create({
@@ -23,7 +26,8 @@ export const createBlog = async (req, res) => {
       subtitle,
       description,
       category,
-      thumbnail, // Can be filename (from req.file) or imageUrl
+      thumbnail,
+      youtubeUrl,
       author: req.userId,
       isPublished: true,
     });
@@ -34,6 +38,7 @@ export const createBlog = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
 
 
 // Get all blogs
@@ -171,9 +176,30 @@ export const deleteBlog = async (req, res) => {
       return res.status(404).json({ success: false, message: "Blog not found" });
     }
 
-    await blog.deleteOne();
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
 
-    res.status(200).json({ success: true, message: "Blog deleted successfully" });
+    // Main admin can delete any blog
+    if (user.role === "main-admin") {
+      await blog.deleteOne();
+      return res.status(200).json({ success: true, message: "Blog deleted by main-admin" });
+    }
+
+    // Admins can only delete their own blog
+    if (user.role === "admin") {
+      if (blog.author.toString() === req.userId) {
+        await blog.deleteOne();
+        return res.status(200).json({ success: true, message: "Blog deleted by admin" });
+      } else {
+        return res.status(403).json({ success: false, message: "Admins can only delete their own blogs" });
+      }
+    }
+
+    // All other users are forbidden
+    return res.status(403).json({ success: false, message: "You are not authorized to delete this blog" });
+
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

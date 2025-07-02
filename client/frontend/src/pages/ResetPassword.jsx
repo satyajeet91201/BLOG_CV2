@@ -39,7 +39,7 @@ const ResetPassword = () => {
       setOtp(pastedArr);
       inputsRef.current[5].focus();
     } else {
-      toast.error('Invalid OTP pasted.');
+      toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
     }
   };
 
@@ -48,7 +48,8 @@ const ResetPassword = () => {
 
     const finalOtp = otp.join('');
     if (!email || finalOtp.length !== 6 || !newPassword) {
-      return toast.error('All fields are required and OTP must be 6 digits');
+      return toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
+
     }
 
     try {
@@ -59,13 +60,13 @@ const ResetPassword = () => {
       });
 
       if (data.status) {
-        toast.success(data.message);
+        toast.success("Action completed successfully!", { autoClose: 3000, position: "top-right", theme: "colored" });
         navigate('/');
       } else {
-        toast.error(data.message);
+        toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Something went wrong');
+      toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
     }
   };
 

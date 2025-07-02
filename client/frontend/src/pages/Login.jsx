@@ -26,11 +26,11 @@ const Login = () => {
 
       if (data.status === 'Success') {
         setIsLoggedIn(true);
-        toast.success(`${state} successful!`);
+        toast.success("Action completed successfully!", { autoClose: 3000, position: "top-right", theme: "colored" });
         await getUserData();
         navigate('/');
       } else {
-        toast.error(data.message || `Something went wrong during ${state}`);
+        toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
       }
     } catch (err) {
       console.error(`❌ ${state} Error`, {
@@ -40,9 +40,9 @@ const Login = () => {
       });
 
       if (err.response?.data?.message) {
-        toast.error(err.response.data.message);
+        toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
       } else {
-        toast.error("An unexpected error occurred. Check the console for details.");
+        toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
       }
     }
   };

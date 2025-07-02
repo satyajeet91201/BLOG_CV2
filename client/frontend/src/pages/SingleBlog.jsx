@@ -27,6 +27,13 @@ const SingleBlog = () => {
   const [likesCount, setLikesCount] = useState(0);
   // --- END NEW STATE ---
 
+  const getYouTubeVideoId = (url) => {
+    const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([^\s&]+)/;
+    const match = url?.match(regExp);
+    return match && match[1] ? match[1] : null;
+  };
+
+
   /**
    * Fetches the blog data from the backend.
    * This function is crucial for:
@@ -233,7 +240,7 @@ const SingleBlog = () => {
       <div className="max-w-3xl mx-auto mt-28 px-4 text-gray-800 dark:text-white transition-colors duration-300">
 
         {/* Edit/Delete Buttons (visible only for admin and not in editing mode) */}
-        {userData?.role === "admin" && !isEditing && (
+        {(userData?.role === "admin" || userData?.role === "main-admin")  && !isEditing && (
           <div className="mb-4 flex gap-3 justify-end">
             <button
               onClick={startEditing}
@@ -251,18 +258,16 @@ const SingleBlog = () => {
         )}
         {blog.thumbnail && (
   <img
-    src={
-      blog.thumbnail.startsWith('http')
-        ? blog.thumbnail // If it's a URL, use directly
-        : `${backendUrl}/uploads/${blog.thumbnail}` // Otherwise, assume it's a file upload
-    }
-    alt="thumbnail"
-    className="w-full max-h-64 object-contain rounded-lg mb-6"
-  />
+  src={
+    blog.thumbnail.startsWith('http')
+      ? blog.thumbnail
+      : `${backendUrl}/uploads/${blog.thumbnail}`
+  }
+  alt="thumbnail"
+  className="w-[96%] max-h-[350px] object-contain rounded-2xl bg-gray-600 shadow-md mb-7 mx-auto"
+/>
+
 )}
-
-
-
         {/* Blog Content Display or Edit Form */}
         {isEditing ? (
           <>
@@ -312,7 +317,17 @@ const SingleBlog = () => {
             <span className="text-xl">❤️</span> {likesCount} Like{likesCount !== 1 ? 's' : ''}
           </button>
         </div>
-
+            {/* YouTube Video Embed */}
+        {blog.youtubeUrl && getYouTubeVideoId(blog.youtubeUrl) && (
+          <div className="mb-6">
+            <iframe
+              className="w-[96%] h-[300px] object-contain rounded-2xl bg-gray-100 shadow-md mb-7 mx-auto"
+              src={`https://www.youtube.com/embed/${getYouTubeVideoId(blog.youtubeUrl)}`}
+              title="YouTube video"
+              allowFullScreen
+            ></iframe>
+          </div>
+        )}
         {/* Comments Section */}
         <div className="mt-8">
           <h2 className="text-2xl font-semibold mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">Comments ({blog.comments.length})</h2>
