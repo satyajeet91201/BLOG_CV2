@@ -61,7 +61,7 @@ const EmailVerify = () => {
       });
       if(data.status)
       {
-        toast.success("Action completed successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
+        toast.success("OTP Verified", { autoClose: 1000, position: "top-right", theme: "colored" });
         navigate("/")
       }
     }catch(error){

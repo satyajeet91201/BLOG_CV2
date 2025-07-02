@@ -26,7 +26,7 @@ const Login = () => {
 
       if (data.status === 'Success') {
         setIsLoggedIn(true);
-        toast.success("Action completed successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
+        toast.success("Logged In!", { autoClose: 1000, position: "top-right", theme: "colored" });
         await getUserData();
         navigate('/');
       } else {

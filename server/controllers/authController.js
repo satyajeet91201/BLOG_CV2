@@ -23,7 +23,7 @@ export const register = async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 8);
 
     const newUser = await User.create({
       name,
@@ -309,7 +309,7 @@ export const resetPassword = async (req, res) => {
     }
 
     if (otp === user.verifyOTp && Date.now() < user.verifyOTpExpireAt) {
-      const hashedPassword = await bcrypt.hash(newPassword, 12);
+      const hashedPassword = await bcrypt.hash(newPassword, 8);
       user.password = hashedPassword;
       user.verifyOTp = null;
       user.verifyOTpExpireAt = null;

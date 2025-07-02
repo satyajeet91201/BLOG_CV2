@@ -53,7 +53,7 @@ const Navbar = () => {
     console.log("✅ OTP response:", data);
 
     if (data.success) { // ✅ Make sure backend sends "success", not "status"
-      toast.success("Action completed successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
+      toast.success("Password Changed Successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
       console.log("📍 Navigating to /reset-password");
       navigate('/reset-password');
     } else {
@@ -61,7 +61,7 @@ const Navbar = () => {
     }
   } catch (error) {
     console.error("🔴 Change password error:", error);
-    toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
+    toast.error("Could Not Change The Password!", { autoClose: 1000, position: "top-right", theme: "colored" });
   }
 };
 
@@ -71,11 +71,11 @@ const Navbar = () => {
       axios.defaults.withCredentials = true;
       const { data } = await axios.post(backendUrl + "/api/auth/emailOtp");
       if (data.success) {
-        toast.success("Action completed successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
+        toast.success("OTP Sent Successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
         navigate('/email-verify');
       }
     } catch (error) {
-      toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
+      toast.error("Could Not Send OTP Successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
     }
   };
 

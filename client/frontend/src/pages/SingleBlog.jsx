@@ -63,7 +63,7 @@ const SingleBlog = () => {
 
     } catch (err) {
       console.error("Failed to load blog:", err); // Log the actual error for debugging
-      toast.error("Failed to load blog. It might not exist or be inaccessible.");
+      toast.error("Failed to load blog. It might not exist or be inaccessible.", { autoClose: 1000, position: "top-right", theme: "colored" });
       // Optionally, redirect if the blog isn't found
       // navigate('/');
     } finally {
@@ -86,7 +86,7 @@ const SingleBlog = () => {
     // --- IMPORTANT LOGIN CHECK ---
     // This is where the "Please log in" toast originates if userData is not correctly provided by AppContext.
     if (!userData || !userData._id) {
-      toast.warn("Please log in to like this post.");
+      toast.warn("Please log in to like this post.", { autoClose: 1000, position: "top-right", theme: "colored" });
       return;
     }
     // --- END LOGIN CHECK ---
@@ -107,7 +107,7 @@ const SingleBlog = () => {
       // The `useEffect` on future loads/navs will ensure ultimate consistency.
     } catch (err) {
       console.error("Failed to update like status on backend:", err); // Log the actual error
-      toast.error("Failed to update like status. Please try again.");
+      toast.error("Failed to update like status. Please try again.", { autoClose: 1000, position: "top-right", theme: "colored" });
       // **Revert UI state if the backend request fails**
       // This ensures consistency if the server operation didn't go through
       setHasLiked(!newHasLiked); // Revert `hasLiked` to its state before the click
@@ -120,12 +120,12 @@ const SingleBlog = () => {
    */
   const handleComment = async () => {
     if (!newComment.trim()) {
-      toast.info("Comment cannot be empty.");
+      toast.info("Comment cannot be empty.",);
       return;
     }
     // --- IMPORTANT LOGIN CHECK ---
     if (!userData || !userData._id) {
-      toast.warn("Please log in to comment.");
+      toast.warn("Please log in to comment.", { autoClose: 1000, position: "top-right", theme: "colored" });
       return;
     }
     // --- END LOGIN CHECK ---
@@ -136,12 +136,12 @@ const SingleBlog = () => {
         { content: newComment },
         { withCredentials: true }
       );
-      toast.success("Successfully added the comment!");
+      toast.success("Successfully added the comment!", { autoClose: 1000, position: "top-right", theme: "colored" });
       setNewComment(""); // Clear the input field
       fetchBlog(); // Re-fetch the blog to display the newly added comment
     } catch (err) {
       console.error("Failed to add comment:", err);
-      toast.error("Failed to add comment.");
+      toast.error("Failed to add comment.", { autoClose: 1000, position: "top-right", theme: "colored" });
     }
   };
 
@@ -184,13 +184,13 @@ const SingleBlog = () => {
         { withCredentials: true }
       );
       if (res.data.success) {
-        toast.success("Blog updated successfully!");
+        toast.success("Blog updated successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
         setIsEditing(false);
         fetchBlog(); // Re-fetch to display the updated content
       }
     } catch (err) {
       console.error("Failed to update blog:", err);
-      toast.error("Failed to update blog.");
+      toast.error("Failed to update blog.", { autoClose: 1000, position: "top-right", theme: "colored" });
     }
   };
 
@@ -204,12 +204,12 @@ const SingleBlog = () => {
           withCredentials: true,
         });
         if (res.data.success) {
-          toast.success("Blog deleted successfully!");
+          toast.success("Blog deleted successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
           navigate('/'); // Redirect to the homepage after deletion
         }
       } catch (err) {
         console.error("Failed to delete blog:", err);
-        toast.error("Failed to delete blog.");
+        toast.error("Failed to delete blog.", { autoClose: 1000, position: "top-right", theme: "colored" });
       }
     }
   };
