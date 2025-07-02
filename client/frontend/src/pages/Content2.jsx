@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { AiFillGithub } from "react-icons/ai";
 import Navbar from '../components/Navbar';
 import { assets } from '../assets/assets';
 
@@ -12,7 +13,7 @@ const Content2 = () => {
         {/* Profile Section */}
         <div className="flex flex-col items-center text-center mb-10">
           <img
-            src={assets.profile} // ✅ Local file path
+            src={assets.profile2} // ✅ Local file path
             alt="profile"
             className="w-32 h-32 rounded-full border-4 border-indigo-500 mb-4 shadow-lg object-cover"
           />
