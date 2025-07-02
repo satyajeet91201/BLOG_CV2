@@ -31,7 +31,7 @@ app.use(cors({
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use(cookieParser());
-// app.use(cors({ credentials: true })); // ✅ Works for cookies
+// app.use(cors({ credentials: true })); // ✅ Works for cookies.
 app.use(express.json()); // ✅ Required for parsing JSON body
 
 
