@@ -39,7 +39,7 @@ const ResetPassword = () => {
       setOtp(pastedArr);
       inputsRef.current[5].focus();
     } else {
-      toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
+      toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
     }
   };
 
@@ -48,7 +48,7 @@ const ResetPassword = () => {
 
     const finalOtp = otp.join('');
     if (!email || finalOtp.length !== 6 || !newPassword) {
-      return toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
+      return toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
 
     }
 
@@ -60,13 +60,13 @@ const ResetPassword = () => {
       });
 
       if (data.status) {
-        toast.success("Action completed successfully!", { autoClose: 3000, position: "top-right", theme: "colored" });
+        toast.success("Action completed successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
         navigate('/');
       } else {
-        toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
+        toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
       }
     } catch (error) {
-      toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
+      toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
     }
   };
 

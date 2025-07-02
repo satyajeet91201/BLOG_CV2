@@ -46,14 +46,14 @@ const EmailVerify = () => {
       setOtp(newOtp);
       inputsRef.current[5].focus();
     } else {
-      toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
+      toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
     }
   };
 
      const handleSubmit = async()=>{
       const finalOtp = otp.join('');
       if (finalOtp.length !== 6) {
-      return toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
+      return toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
     }
     try{
       const {data} = await axios.post(backendUrl + '/api/auth/verifyEmail',{
@@ -61,11 +61,11 @@ const EmailVerify = () => {
       });
       if(data.status)
       {
-        toast.success("Action completed successfully!", { autoClose: 3000, position: "top-right", theme: "colored" });
+        toast.success("Action completed successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
         navigate("/")
       }
     }catch(error){
-        toast.error("Something went wrong!", { autoClose: 3000, position: "top-right", theme: "colored" });
+        toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
     }
   }
 
