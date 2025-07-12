@@ -17,14 +17,12 @@ const router = express.Router();
 
 // Create Blog (Admin only + with thumbnail)
 router.post("/create", userAuth, adminOnly, upload.single('thumbnail'), createBlog);
-
-// Edit Blog (Admin only + with thumbnail)
 router.put("/edit/:id", userAuth, adminOnly, upload.single('thumbnail'), editBlog);
 
-// Other routes
-router.get("/", userAuth, getAllBlogs);
-router.get("/:id", getSingleBlog);
-router.get("/my", userAuth, getMyBlogs);
+// 📌 Order matters: always put more specific paths first
+router.get("/my", userAuth, getMyBlogs);           // ✅ GET /blogs/my
+router.get("/", userAuth, getAllBlogs);            // ✅ GET /blogs/
+router.get("/:id", getSingleBlog);                 // ✅ GET /blogs/:id (public)
 router.delete("/:id", userAuth, adminOnly, deleteBlog);
 router.put("/like/:id", userAuth, likeBlog);
 router.post("/comment/:id", userAuth, addComment);

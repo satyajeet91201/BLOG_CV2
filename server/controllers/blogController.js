@@ -55,27 +55,26 @@ export const getAllBlogs = async (req, res) => {
 export const getSingleBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id)
-      .populate("author", "name email") // Populates the blog author
-      // --- START THE CORRECT POPULATE ---
+      .populate("author", "name email")
       .populate({
-        path: 'comments', // First, populate the actual Comment documents referenced in the Blog's comments array
+        path: 'comments',
         populate: {
-          path: 'userId', // Then, within each Comment document, populate the 'userId' field
-          select: 'name' // And from the User document, only select the 'name' field
-        }
+          path: 'userId',
+          select: 'name',
+        },
       });
-      // --- END THE CORRECT POPULATE ---
 
     if (!blog) {
       return res.status(404).json({ success: false, message: "Blog not found" });
     }
 
-    res.status(200).json({ success: true, blog });
+    return res.status(200).json({ success: true, blog });
   } catch (err) {
-    console.error("Error in getSingleBlog:", err); // Add proper error logging
-    res.status(500).json({ success: false, message: err.message });
+    console.error("❌ Error in getSingleBlog:", err);
+    return res.status(500).json({ success: false, message: "Server error: " + err.message });
   }
 };
+
 
 // Like or Unlike blog
 export const likeBlog = async (req, res) => {
