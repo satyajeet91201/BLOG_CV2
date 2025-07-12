@@ -16,7 +16,7 @@
     "server.js": {
       "memory": 512,
       "maxDuration": 10,
-      "regions": ["bom1"]  // Mumbai region, adjust based on your MongoDB Atlas location
+      "regions": ["bom1"]  
     }
   }
 }

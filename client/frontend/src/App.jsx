@@ -25,11 +25,11 @@ const App = () => {
         <Route path='/reset-password' element={<ResetPassword/>}/>
         <Route path='/unauthorized' element={<Unauthorized/>}/>
         <Route path='/resume' element={<Content2/>}/>
-    <Route path="/blog/:id" element={<SingleBlog />} />
-    <Route path="/blogs" element={
-    <ProtectedRoute>
+       <Route path="/blog/:id" element={<SingleBlog />} />
+       <Route path="/blogs" element={
+      <ProtectedRoute>
       <Blogs />
-    </ProtectedRoute>
+     </ProtectedRoute>
   } />
   <Route path="/create-blog" element={
   <ProtectedRoute>
