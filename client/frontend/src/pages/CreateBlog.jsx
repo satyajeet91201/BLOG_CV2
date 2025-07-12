@@ -24,10 +24,11 @@ const CreateBlog = () => {
     data.append('description', formData.description);
 
     if (thumbnail) {
-      data.append('thumbnail', thumbnail);
-    } else if (imageUrl) {
-      data.append('imageUrl', imageUrl);
-    }
+  data.append('image', thumbnail); // ✅ must match multer field name
+} else if (imageUrl) {
+  data.append('imageUrl', imageUrl); // if backend still accepts this as fallback
+}
+
 
     if (youtubeUrl.trim()) {
       data.append('youtubeUrl', youtubeUrl.trim());

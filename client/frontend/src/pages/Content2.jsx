@@ -13,7 +13,7 @@ const Content2 = () => {
         {/* Profile Section */}
         <div className="flex flex-col items-center text-center mb-10">
           <img
-            src={assets.profile2} // ✅ Local file path
+            src={assets.profile} // ✅ Local file path
             alt="profile"
             className="w-32 h-32 rounded-full border-4 border-indigo-500 mb-4 shadow-lg object-cover"
           />
@@ -47,8 +47,8 @@ const Content2 = () => {
             <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow">
               <h3 className="font-semibold text-indigo-700 dark:text-indigo-300 mb-2">Education</h3>
               <ul className="list-disc list-inside space-y-1">
-                <li>M.E. Computer Engineering - Pune University</li>
-                <li>B.E. - Sinhagad Academy of Engineering, Pune</li>
+                <li>M.E. Computer Engineering - Pune University - 9.02 CGPA</li>
+                <li>B.E. - Sinhagad Academy of Engineering, Pune - 8.8 CGPA</li>
               </ul>
             </div>
             <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow">
@@ -163,6 +163,16 @@ const Content2 = () => {
         className="text-indigo-600 dark:text-indigo-300 underline ml-1"
       >
         GitHub →
+      </a>
+      {' '}
+      |{' '}
+      <a
+        href="https://saty-writes.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-green-600 dark:text-green-400 underline ml-1"
+      >
+        Demo →
       </a>
     </>
   ),

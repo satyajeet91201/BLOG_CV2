@@ -24,11 +24,7 @@ const App = () => {
         <Route path='/email-verify' element={<EmailVerify/>}/>
         <Route path='/reset-password' element={<ResetPassword/>}/>
         <Route path='/unauthorized' element={<Unauthorized/>}/>
-        <Route path='/resume' element={
-      <ProtectedRoute>
-        <Content2 />
-      </ProtectedRoute>
-    }/>
+        <Route path='/resume' element={<Content2/>}/>
     <Route path="/blogs" element={
     <ProtectedRoute>
       <Blogs />

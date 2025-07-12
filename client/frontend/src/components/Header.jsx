@@ -15,9 +15,9 @@ const Header = () => {
   return (
     <div className="flex flex-col items-center mt-20 px-4 text-center text-gray-800 dark:text-white pt-5">
       <img
-        src={isLoggedIn ? assets.header_img2 : assets.header_img}
+        src={isLoggedIn ? assets.header_img4 : assets.header_img}
         alt="Profile"
-        className="w-36 h-36 rounded-full mb-6 border-4 border-gray-200 dark:border-gray-700"
+        className="w-40 h-40 rounded-full mb-6 border-4 border-gray-200 dark:border-gray-700"
       />
 
       <h1 className="flex items-center gap-2 text-xl sm:text-3xl font-medium mb-2">
