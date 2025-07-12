@@ -23,7 +23,7 @@ router.put("/edit/:id", userAuth, adminOnly, upload.single('thumbnail'), editBlo
 
 // Other routes
 router.get("/", userAuth, getAllBlogs);
-router.get("/:id", userAuth, getSingleBlog);
+router.get("/:id", getSingleBlog);
 router.get("/my", userAuth, getMyBlogs);
 router.delete("/:id", userAuth, adminOnly, deleteBlog);
 router.put("/like/:id", userAuth, likeBlog);
