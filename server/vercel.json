@@ -15,8 +15,7 @@
   "functions": {
     "server.js": {
       "memory": 512,
-      "maxDuration": 10,
-      "regions": ["bom1"]  
+      "maxDuration": 10 
     }
   }
 }
