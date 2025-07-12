@@ -2,7 +2,7 @@
 import Blog from '../models/Blog.js';
 import Comment from '../models/Comments.js';
 import User from '../models/userModel.js';
-
+  
 // Create blog (admin only)
 export const createBlog = async (req, res) => {
   const { title, subtitle, description, category, imageUrl, youtubeUrl } = req.body;
