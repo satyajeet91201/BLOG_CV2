@@ -20,9 +20,11 @@ router.post("/create", userAuth, adminOnly, upload.single('thumbnail'), createBl
 router.put("/edit/:id", userAuth, adminOnly, upload.single('thumbnail'), editBlog);
 
 // 📌 Order matters: always put more specific paths first
-router.get("/my", userAuth, getMyBlogs);           // ✅ GET /blogs/my
-router.get("/", userAuth, getAllBlogs);            // ✅ GET /blogs/
-router.get("/:id", getSingleBlog);                 // ✅ GET /blogs/:id (public)
+// blogRoutes.js
+
+router.get("/my", userAuth, getMyBlogs);          // ✅ GET /blogs/my (protected)
+router.get("/:id", getSingleBlog);                // ✅ GET /blogs/:id (public)
+router.get("/", userAuth, getAllBlogs);           // ✅ GET /blogs (protected list)
 router.delete("/:id", userAuth, adminOnly, deleteBlog);
 router.put("/like/:id", userAuth, likeBlog);
 router.post("/comment/:id", userAuth, addComment);
