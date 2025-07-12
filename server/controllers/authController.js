@@ -289,6 +289,7 @@ export const sendResetOtp = async (req, res) => {
   }
 };
 
+
 export const resetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
 

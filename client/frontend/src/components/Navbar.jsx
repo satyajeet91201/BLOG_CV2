@@ -44,6 +44,7 @@ const Navbar = () => {
   console.log("🔄 Change Password clicked");
 
   try {
+    // Show initial toast or spinner if needed
     const { data } = await axios.post(
       backendUrl + '/api/auth/send-reset-otp',
       {},
@@ -52,18 +53,33 @@ const Navbar = () => {
 
     console.log("✅ OTP response:", data);
 
-    if (data.success) { // ✅ Make sure backend sends "success", not "status"
-      toast.success("Password Changed Successfully!", { autoClose: 1000, position: "top-right", theme: "colored" });
-      console.log("📍 Navigating to /reset-password");
+    if (data.success) {
+      toast.success("OTP Sent Successfully!", {
+        autoClose: 1000,
+        position: "top-right",
+        theme: "colored",
+      });
+
+      // ✅ Navigate after response — email will arrive shortly
       navigate('/reset-password');
     } else {
-      toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
+      toast.error("Something went wrong!", {
+        autoClose: 1000,
+        position: "top-right",
+        theme: "colored",
+      });
     }
   } catch (error) {
     console.error("🔴 Change password error:", error);
-    toast.error("Could Not Change The Password!", { autoClose: 1000, position: "top-right", theme: "colored" });
+    toast.error("Could Not Send The OTP!", {
+      autoClose: 1000,
+      position: "top-right",
+      theme: "colored",
+    });
   }
 };
+
+
 
 
   const sendVerificationOtp = async () => {
