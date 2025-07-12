@@ -11,12 +11,11 @@ import header_img2 from './header2.jpg'
 import header_img3 from './header3.jpg'
 import header_img4 from './header5.png'
 import ghibli from './ChatGPT Image Jul 7, 2025, 10_53_24 PM.png'
-import ghibli2 from './ghibli.jpeg'
-import ghibli3 from './ghibli.jpg'
+
 
 
 
 
 export const assets ={
-    logo,bg_img,header_img,hand_wave,arrow_icon,mail_icon,person_icon, profile, header_img2 , header_img3 , header_img4, profile2 , ghibli, ghibli3 , ghibli2
+    logo,bg_img,header_img,hand_wave,arrow_icon,mail_icon,person_icon, profile, header_img2 , header_img3 , header_img4, profile2 , ghibli
 }
