@@ -10,7 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // 🌗 Theme toggle logic
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
 
   useEffect(() => {
     const root = window.document.documentElement;
