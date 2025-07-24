@@ -163,32 +163,41 @@ const SingleBlog = () => {
     }
   };
 
-  const generateSpeech = async () => {
-    if (!blog || !blog.description || isGeneratingAudio) return;
-    setIsGeneratingAudio(true);
-    try {
-      const res = await axios.post(`${backendUrl}/api/tts`, { text: blog.description });
-      setAudioUrl(`${backendUrl}${res.data.audioUrl}`);
-    } catch (err) {
-      toast.error("Failed to generate audio");
-    } finally {
-      setIsGeneratingAudio(false);
-    }
-  };
+ const generateSpeech = async () => {
+  if (!blog || !blog.description || isGeneratingAudio) return;
+  setIsGeneratingAudio(true);
+  try {
+    const res = await axios.post(`${backendUrl}/api/tts`, {
+      text: blog.description,
+    });
 
-  const playSpeech = () => {
-    if (!audioUrl) return;
-    if (isPlaying && audioInstance) {
-      audioInstance.pause();
-      setIsPlaying(false);
+    if (res.data.audioUrl) {
+      const fullAudioUrl = `${backendUrl}${res.data.audioUrl}`;
+
+      // Trigger download
+      const link = document.createElement("a");
+      link.href = fullAudioUrl;
+      link.download = "blog-audio.mp3";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast.success("Audio generated and downloaded!", {
+        autoClose: 1000,
+        position: "top-right",
+        theme: "colored",
+      });
     } else {
-      const audio = new Audio(audioUrl);
-      setAudioInstance(audio);
-      setIsPlaying(true);
-      audio.play();
-      audio.onended = () => setIsPlaying(false);
+      toast.error("Audio generation failed. No audio URL.");
     }
-  };
+  } catch (err) {
+    console.error("Failed to generate audio:", err);
+    toast.error("Failed to generate audio");
+  } finally {
+    setIsGeneratingAudio(false);
+  }
+};
+
 
   if (loading) {
     return (
@@ -238,9 +247,10 @@ const SingleBlog = () => {
             <h1 className="text-3xl font-bold mb-2">{blog.title}</h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">By {blog.author?.name || 'Unknown'} on {new Date(blog.createdAt).toLocaleDateString()}</p>
             <p className="mb-6 leading-relaxed whitespace-pre-wrap">{blog.description}</p>
-            <button onClick={audioUrl ? playSpeech : generateSpeech} disabled={isGeneratingAudio} className="mb-6 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
-              {isGeneratingAudio ? '🔄 Generating Audio...' : audioUrl ? (isPlaying ? '⏹️ Stop Audio' : '🔊 Play Description') : '🔊 Generate Audio'}
-            </button>
+            <button onClick={generateSpeech} disabled={isGeneratingAudio} className="mb-6 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+  {isGeneratingAudio ? '🔄 Generating Audio...' : '⬇️ Generate & Download Audio'}
+</button>
+
           </>
         )}
 
