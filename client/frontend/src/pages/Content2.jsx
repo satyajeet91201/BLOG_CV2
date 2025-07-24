@@ -1,6 +1,5 @@
 import React from 'react';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import { AiFillGithub } from "react-icons/ai";
 import Navbar from '../components/Navbar';
 import { assets } from '../assets/assets';
 
@@ -8,71 +7,89 @@ const Content2 = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center min-h-screen px-6 py-12 bg-gradient-to-br from-indigo-100 to-white dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-white transition-colors duration-300">
-        
+      <div className="flex flex-col items-center justify-center min-h-screen px-6 py-16 bg-gradient-to-br from-indigo-100 to-white dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-white transition-colors duration-300">
+
         {/* Profile Section */}
-        <div className="flex flex-col items-center text-center mb-10">
+        <div className="flex flex-col items-center text-center mb-12 mt-8">
           <img
-            src={assets.profile} // ✅ Local file path
+            src={assets.profile}
             alt="profile"
-            className="w-32 h-32 rounded-full border-4 border-indigo-500 mb-4 shadow-lg object-cover"
+            className="w-32 h-32 sm:w-32 sm:h-32 rounded-full border-4 border-indigo-500 shadow-lg object-cover transition-transform duration-300 hover:scale-105"
           />
-          <h1 className="text-3xl sm:text-4xl font-bold">Praphulla Lokhande</h1>
-          <p className="text-md text-gray-600 dark:text-gray-300 mt-2">
+          <h1 className="text-2xl sm:text-3xl font-bold mt-4 text-indigo-700 dark:text-indigo-300">
+            Praphullakumar Lokhande
+          </h1>
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-2">
             Full Stack Developer | MERN | React | Node.js
           </p>
-          <div className="mt-4 flex justify-center gap-4 text-indigo-600 dark:text-indigo-400 text-xl">
-  <a href="https://github.com/satyajeet91201" target="_blank" rel="noreferrer">
-    <FaGithub />
-  </a>
-  <a href="https://in.linkedin.com/in/praphulla-lokhande-6b0806213" target="_blank" rel="noreferrer">
-    <FaLinkedin />
-  </a>
-  <a href="mailto:praphullakumarlokhande9@gmail.com">
-    <FaEnvelope />
-  </a>
-</div>
 
-{/* Contact Info */}
-<div className="mt-4 text-sm text-gray-600 dark:text-gray-300 text-center">
-  <p>📞 Mobile: <span className="font-medium">7666980197</span>, <span className="font-medium">7977709649</span></p>
-  <p>✉️ Email: <a  href="mailto:praphullakumarlokhande9@gmail.com" className="underline pr-2">praphullakumarlokhande9@gmail.com</a> <a href="mailto:praphullakumar.l@rilc.com" className="underline">praphullakumar.l@ril.com</a></p>
-</div>
-</div>
+          {/* Social Links */}
+          <div className="mt-3 flex justify-center gap-5 text-xl text-indigo-600 dark:text-indigo-300">
+            <a href="https://github.com/satyajeet91201" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform">
+              <FaGithub />
+            </a>
+            <a href="https://in.linkedin.com/in/praphulla-lokhande-6b0806213" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform">
+              <FaLinkedin />
+            </a>
+            <a href="mailto:praphullakumarlokhande9@gmail.com" className="hover:scale-110 transition-transform">
+              <FaEnvelope />
+            </a>
+          </div>
 
-        {/* Education & Work Experience */}
-        <div className="w-full max-w-4xl mb-10 text-center">
-          <h2 className="text-2xl font-semibold mb-4">🎓 Education & 💼 Experience</h2>
-          <div className="grid sm:grid-cols-2 gap-6 text-left text-sm sm:text-base">
-            <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow">
-              <h3 className="font-semibold text-indigo-700 dark:text-indigo-300 mb-2">Education</h3>
-              <ul className="list-disc list-inside space-y-1">
-                <li>M.E. Computer Engineering - Pune University - 9.02 CGPA</li>
-                <li>B.E. - Sinhagad Academy of Engineering, Pune - 8.8 CGPA</li>
-              </ul>
-            </div>
-            <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow">
-              <h3 className="font-semibold text-indigo-700 dark:text-indigo-300 mb-2">Work Experience</h3>
-              <ul className="list-disc list-inside space-y-1">
-                <li>Assistant Manager – Jio Platforms (Jan 2024 – Present)</li>
-                <li>Web Dev Intern – Twowaits Technologies Ltd (Jan 2023 – Mar 2023)</li>
-              </ul>
-            </div>
+          {/* Contact Info */}
+          <div className="mt-3 text-sm text-gray-600 dark:text-gray-300 text-center">
+            <p>📞 <span className="font-medium">7666980197</span>, <span className="font-medium">7977709649</span></p>
+            <p>
+              ✉️ <a href="mailto:praphullakumarlokhande9@gmail.com" className="underline pr-2">praphullakumarlokhande9@gmail.com</a>
+              <a href="mailto:praphullakumar.l@rilc.com" className="underline">praphullakumar.l@ril.com</a>
+            </p>
+          </div>
+        </div>
+
+        {/* Education & Experience */}
+        <div className="w-full max-w-4xl mb-12">
+          <h2 className="text-2xl font-semibold text-center mb-6">EDUCATION & EXPERIENCE</h2>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {[
+              {
+                title: 'Education',
+                items: [
+                  'M.E. Computer Engineering - Pune University - 9.02 CGPA',
+                  'B.E. - Sinhagad Academy of Engineering - 8.8 CGPA',
+                ],
+              },
+              {
+                title: 'Work Experience',
+                items: [
+                  'Assistant Manager – Jio Platforms (Jan 2024 – Present)',
+                  'Web Dev Intern – Twowaits Tech Ltd (Jan 2023 – Mar 2023)',
+                ],
+              },
+            ].map((section, i) => (
+              <div key={i} className="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md transition-transform hover:scale-[1.02]">
+                <h3 className="text-lg font-semibold text-indigo-700 dark:text-indigo-200 mb-2">{section.title}</h3>
+                <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200">
+                  {section.items.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Skills */}
-        <div className="w-full max-w-4xl text-center mb-10">
-          <h2 className="text-2xl font-semibold mb-4">🧠 Skills</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-sm">
+        <div className="w-full max-w-4xl text-center mb-12">
+          <h2 className="text-2xl font-semibold mb-6">SKILLS</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {[
               'React.js', 'Node.js', 'Express', 'MongoDB',
               'Tailwind CSS', 'Redux', 'Git/GitHub', 'JWT',
               'API Integration', 'TypeScript',
-            ].map(skill => (
+            ].map((skill, index) => (
               <span
-                key={skill}
-                className="bg-indigo-500 px-4 py-2 rounded-full shadow-md text-white"
+                key={index}
+                className="bg-indigo-600 dark:bg-indigo-500 text-white px-4 py-2 rounded-full shadow hover:shadow-lg transition-transform duration-300 hover:scale-105"
               >
                 {skill}
               </span>
@@ -81,120 +98,85 @@ const Content2 = () => {
         </div>
 
         {/* Projects */}
-<div className="w-full max-w-4xl text-center mb-10">
-  <h2 className="text-2xl font-semibold mb-6">🚀 Projects</h2>
+        {/* Projects */}
+<div className="w-full max-w-4xl text-center mb-12">
+  <h2 className="text-2xl font-semibold mb-6">PROJECTS</h2>
   <div className="grid gap-6 sm:grid-cols-2 text-left">
     {[
-  {
-  title: 'Smart Restaurant Manager',
-  desc: (
-    <>
-      Facial recognition-based smart food suggestion system for customers with React and MongoDB.{' '}
-      <a
-        href="https://github.com/satyajeet91201/SRM-Final"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-indigo-600 dark:text-indigo-300 underline ml-1"
-      >
-        GitHub →
-      </a>{' '}
-      |{' '}
-      <a
-        href="https://smart-resturant-manager.netlify.app/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-green-600 dark:text-green-400 underline ml-1"
-      >
-        Demo →
-      </a>
-    </>
-  )
-},
-{
-  title: 'Flavaro – Food Ordering App',
-  desc: (
-    <>
-      Modern UI/UX food order homepage using React.js, Tailwind CSS, Redux, and cart functionality.{' '}
-      <a
-        href="https://flavaro-gamma.vercel.app/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-green-600 dark:text-green-400 underline ml-1"
-      >
-        Demo →
-      </a>
-    </>
-  )
-},
-{
-  title: 'Stock Forecasting App',
-  desc: (
-    <>
-      AI-based stock price prediction using news sentiment (TensorFlow.js, React, Node).{' '}
-      <a
-        href="https://github.com/satyajeet91201/BLOG_CV2"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-indigo-600 dark:text-indigo-300 underline ml-1"
-      >
-        GitHub →
-      </a>{' '}
-      |{' '}
-      <a
-        href="https://v0-finnhub-stock-predictor.vercel.app/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-green-600 dark:text-green-400 underline ml-1"
-      >
-        Demo →
-      </a>
-    </>
-  )
-},
-{
-  title: 'Blog & Profile Application',
-  desc: (
-    <>
-      Full-stack MERN blog and portfolio app with authentication, role-based access, and CMS.{' '}
-      <a
-        href="https://github.com/satyajeet91201/BLOG_CV"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-indigo-600 dark:text-indigo-300 underline ml-1"
-      >
-        GitHub →
-      </a>
-      {' '}
-      |{' '}
-      <a
-        href="https://saty-writes.vercel.app/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-green-600 dark:text-green-400 underline ml-1"
-      >
-        Demo →
-      </a>
-    </>
-  ),
-},
-].map((project) => (
-      <div
-        key={project.title}
-        className="bg-white dark:bg-gray-700 rounded-xl shadow-md p-4 hover:shadow-lg transition-all"
-      >
-        <h3 className="text-lg font-semibold text-indigo-700 dark:text-indigo-300">{project.title}</h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">{project.desc}</p>
+      {
+        title: 'Smart Restaurant Manager',
+        desc: [
+          'Facial recognition-based food suggestion system.',
+          'Uses computer vision and AI models to recommend dishes.',
+          'Built with React, Flask, and OpenCV integration.',
+        ],
+        github: 'https://github.com/satyajeet91201/SRM-Final',
+        demo: 'https://smart-resturant-manager.netlify.app/',
+      },
+      {
+        title: 'Flavaro – Food Ordering App',
+        desc: [
+          'Responsive UI for food ordering using React + Redux.',
+          'Features cart functionality and product filters.',
+          'Focus on state management and clean UX.',
+        ],
+        github: null,
+        demo: 'https://flavaro-gamma.vercel.app/',
+      },
+      {
+        title: 'Stock Forecasting App',
+        desc: [
+          'AI-powered stock prediction using TensorFlow.js.',
+          'Visualizes trends and stock prices dynamically.',
+          'React frontend with real-time chart updates.',
+        ],
+        github: 'https://github.com/satyajeet91201/BLOG_CV2',
+        demo: 'https://v0-finnhub-stock-predictor.vercel.app/',
+      },
+      {
+        title: 'Blog & Profile Application',
+        desc: [
+          'Full-stack blog CMS with MERN stack.',
+          'Authentication, CRUD functionality, and image uploads.',
+          'Responsive UI and secure route protection.',
+        ],
+        github: 'https://github.com/satyajeet91201/BLOG_CV',
+        demo: 'https://saty-writes.vercel.app/',
+      },
+    ].map((project, index) => (
+      <div key={index} className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-lg dark:shadow-white/10 hover:shadow-xl transition-all">
+        <h3 className="text-lg font-bold text-indigo-700 dark:text-white mb-2">{project.title}</h3>
+        <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc list-inside space-y-1 mb-2">
+          {project.desc.map((line, i) => (
+            <li key={i}>{line}</li>
+          ))}
+        </ul>
+        <div className="text-sm mt-2 space-x-4">
+          {project.github && (
+            <a href={project.github} target="_blank" rel="noreferrer" className="text-indigo-500 underline">
+              GitHub →
+            </a>
+          )}
+          {project.demo && (
+            <a href={project.demo} target="_blank" rel="noreferrer" className="text-green-500 underline">
+              Demo →
+            </a>
+          )}
+        </div>
       </div>
     ))}
   </div>
 </div>
 
 
-        {/* Resume Download */}
-       <a
-        href="/Praphulla Resume-Updated.pdf"
-        download
-        className="border border-gray-500 dark:border-white rounded-full px-8 py-2.5 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all"> 📄 My Resume</a>
+        {/* Resume Button */}
+        <a
+          href="/Praphulla Resume-Updated.pdf"
+          download
+          className="mt-4 border border-gray-500 dark:border-white rounded-full px-8 py-2.5 font-semibold hover:bg-gray-300 dark:hover:bg-gray-700 transition-all"
+        >
+          📄 Download My Resume
+        </a>
       </div>
     </>
   );
