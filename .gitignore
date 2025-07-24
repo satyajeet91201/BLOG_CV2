@@ -12,3 +12,6 @@ server/node_modules/
 # Build files
 client/build/
 dist/
+
+# Custom files to ignore
+test-cohere.mjs

@@ -8,6 +8,7 @@ import emailRouter from "./routes/emailRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import otpRouter from "./routes/otpRoutes.js";
 import blogRouter from "./routes/blogRoutes.js";
+import ttsRoutes from './routes/ttsRoutes.js'; // ✅ Import TTS routes
 import path from "path";
 
 const __dirname = path.resolve();
@@ -21,32 +22,33 @@ app.use(cors({
     'https://blog-cv2-frontt.vercel.app',
     'https://satyawrites.netlify.app',
     'https://saty-writes.vercel.app',
-     'http://localhost:5173',
+    'http://localhost:5173',
     'https://blog-cv2-frontt-git-main-praphullakumar-lokhandes-projects.vercel.app'
   ],
   credentials: true
 }));
 
-//here we go
 // Serve uploaded images statically
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
+// ✅ Serve generated TTS audio files statically
+app.use('/tts', express.static(path.join(process.cwd(), 'public/tts')));
+
 app.use(cookieParser());
-// app.use(cors({ credentials: true })); // ✅ Works for cookies.
 app.use(express.json()); // ✅ Required for parsing JSON body
 
-
 app.get('/', (req, res) => {
-    res.send('App Working Properly');
-    console.log(req.url);
+  res.send('App Working Properly');
+  console.log(req.url);
 });
 
 app.use('/api/blogs', blogRouter);
-app.use('/',userRouter);
-app.use('/api/auth', authRouter); // ✅ Route registration
+app.use('/', userRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/email', emailRouter);
 app.use('/api/email/otp', otpRouter);
+app.use('/api/tts', ttsRoutes); // ✅ Use TTS route
 
 app.listen(port, () => {
-    console.log(`Server started on Port: ${port}`);
+  console.log(`Server started on Port: ${port}`);
 });
