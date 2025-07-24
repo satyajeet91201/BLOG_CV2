@@ -165,31 +165,37 @@ const SingleBlog = () => {
 
  const generateSpeech = async () => {
   if (!blog || !blog.description || isGeneratingAudio) return;
+
   setIsGeneratingAudio(true);
   try {
-    const res = await axios.post(`${backendUrl}/api/tts`, {
-      text: blog.description,
+    const response = await fetch(`${backendUrl}/api/tts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text: blog.description })
     });
 
-    if (res.data.audioUrl) {
-      const fullAudioUrl = `${backendUrl}${res.data.audioUrl}`;
-
-      // Trigger download
-      const link = document.createElement("a");
-      link.href = fullAudioUrl;
-      link.download = "blog-audio.mp3";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      toast.success("Audio generated and downloaded!", {
-        autoClose: 1000,
-        position: "top-right",
-        theme: "colored",
-      });
-    } else {
-      toast.error("Audio generation failed. No audio URL.");
+    if (!response.ok) {
+      throw new Error('Failed to generate audio');
     }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'blog-audio.mp3';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast.success("Audio generated and downloaded!", {
+      autoClose: 1000,
+      position: "top-right",
+      theme: "colored",
+    });
   } catch (err) {
     console.error("Failed to generate audio:", err);
     toast.error("Failed to generate audio");
@@ -197,6 +203,7 @@ const SingleBlog = () => {
     setIsGeneratingAudio(false);
   }
 };
+
 
 
   if (loading) {

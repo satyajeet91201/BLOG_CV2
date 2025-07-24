@@ -1,11 +1,7 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
-
-// controllers/ttsController.js
-import { exec } from 'child_process';
-import fs from 'fs';
-import path from 'path';
-import gTTS from 'gtts'; // If you're using gtts npm package
+import { Readable } from 'stream';
+import gTTS from 'gtts';
 
 export const generateSpeech = async (req, res) => {
   try {
@@ -15,24 +11,17 @@ export const generateSpeech = async (req, res) => {
       return res.status(400).json({ error: 'Text is required' });
     }
 
-    const fileName = `speech-${Date.now()}.mp3`;
-    const filePath = path.join('public', 'tts', fileName);
+    const gtts = new gTTS(text, lang);
 
-    const speech = new gTTS(text, lang);
-    speech.save(filePath, (err) => {
-      if (err) {
-        console.error('TTS Error:', err);
-        return res.status(500).json({ error: 'Failed to generate audio' });
-      }
+    // Set response headers
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.setHeader('Content-Disposition', `attachment; filename="blog-audio.mp3"`);
 
-      res.status(200).json({
-        status: 'success',
-        audioUrl: `/tts/${fileName}`
-      });
-    });
-
+    // Pipe the TTS stream directly to response
+    gtts.stream().pipe(res);
+    
   } catch (error) {
-    console.error('TTS Controller Error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('TTS Streaming Error:', error);
+    res.status(500).json({ error: 'Failed to stream audio' });
   }
 };
