@@ -36,14 +36,14 @@ const Login = () => {
       console.error(`❌ ${state} Error`, {
         message: err?.message,
         status: err?.response?.status,
-        response: err?.response?.data,
+        backendMessage: err?.response?.data?.message,
       });
 
-      if (err.response?.data?.message) {
-        toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
-      } else {
-        toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
-      }
+      toast.error(err?.response?.data?.message || "Something went wrong!", {
+        autoClose: 1000,
+        position: "top-right",
+        theme: "colored"
+      });
     }
   };
 

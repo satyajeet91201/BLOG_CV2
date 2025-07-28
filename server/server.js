@@ -10,6 +10,8 @@ import otpRouter from "./routes/otpRoutes.js";
 import blogRouter from "./routes/blogRoutes.js";
 import ttsRoutes from './routes/ttsRoutes.js'; // ✅ Import TTS routes
 import path from "path";
+import AppError from "./utils/appError.js";
+import globalErrorHandling from "./utils/globalErrorHandlinfMiddleware.js";
 
 const __dirname = path.resolve();
 
@@ -50,6 +52,17 @@ app.use('/api/auth', authRouter);
 app.use('/api/email', emailRouter);
 app.use('/api/email/otp', otpRouter);
 app.use('/api/tts', ttsRoutes); // ✅ Use TTS route
+
+app.use((req, res , next) => {
+  // const err = new Error(`Cannot find the requested URl : ${req.originalUrl} on this server !`);
+  // err.status = "Fail";
+  // err.statusCode = 405;
+  next( new AppError(`Cannot find the requested URl : ${req.originalUrl} on this server !`,404));
+   
+});
+
+app.use(globalErrorHandling);
+
 
 app.listen(port, () => {
   console.log(`Server started on Port: ${port}`);

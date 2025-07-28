@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { assets } from '../assets/assets'; // ensure this has `logo`
+import { assets } from '../assets/assets';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AppContent } from '../context/AppContext';
@@ -10,11 +10,7 @@ const EmailVerify = () => {
   const inputsRef = useRef([]);
   const navigate = useNavigate();
 
-  const {resendOtp , backendUrl} = useContext(AppContent);
-
-   
-  
-
+  const { resendOtp, backendUrl } = useContext(AppContent);
 
   // Focus next input on typing
   const handleChange = (element, index) => {
@@ -46,29 +42,48 @@ const EmailVerify = () => {
       setOtp(newOtp);
       inputsRef.current[5].focus();
     } else {
-      toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
+      toast.error("Please paste a valid 6-digit OTP", {
+        autoClose: 1500,
+        position: "top-right",
+        theme: "colored"
+      });
     }
   };
 
-     const handleSubmit = async()=>{
-      const finalOtp = otp.join('');
-      if (finalOtp.length !== 6) {
-      return toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
+  // Submit OTP
+  const handleSubmit = async () => {
+    const finalOtp = otp.join('');
+    if (finalOtp.length !== 6) {
+      return toast.error("Enter the full 6-digit OTP", {
+        autoClose: 1500,
+        position: "top-right",
+        theme: "colored"
+      });
     }
-    try{
-      const {data} = await axios.post(backendUrl + '/api/auth/verifyEmail',{
+
+    try {
+      const { data } = await axios.post(`${backendUrl}/api/auth/verifyEmail`, {
         otp: finalOtp,
       });
-      if(data.status)
-      {
-        toast.success("OTP Verified", { autoClose: 1000, position: "top-right", theme: "colored" });
-        navigate("/")
-      }
-    }catch(error){
-        toast.error("Something went wrong!", { autoClose: 1000, position: "top-right", theme: "colored" });
-    }
-  }
 
+      if (data.status) {
+        toast.success("OTP Verified", {
+          autoClose: 1000,
+          position: "top-right",
+          theme: "colored"
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      const errorMsg =
+        error?.response?.data?.message || "Verification failed. Try again.";
+      toast.error(errorMsg, {
+        autoClose: 2000,
+        position: "top-right",
+        theme: "colored"
+      });
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-400 px-4 sm:px-0">
@@ -106,7 +121,10 @@ const EmailVerify = () => {
         </button>
 
         <p className="text-xs text-center mt-4">
-          Didn't get the code? <span onClick={resendOtp} className="text-indigo-400 hover:underline cursor-pointer">Resend</span>
+          Didn't get the code?{" "}
+          <span onClick={resendOtp} className="text-indigo-400 hover:underline cursor-pointer">
+            Resend
+          </span>
         </p>
       </div>
     </div>

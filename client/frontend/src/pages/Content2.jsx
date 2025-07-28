@@ -7,7 +7,7 @@ const Content2 = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 py-12 bg-gradient-to-br from-indigo-100 to-white dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-white transition-colors duration-300 overflow-x-hidden">
+      <div className="font-sans flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 py-12 bg-gradient-to-br from-indigo-100 to-white dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-white transition-colors duration-300 overflow-x-hidden">
 
         {/* Profile Section */}
         <div className="flex flex-col items-center text-center mb-10 mt-6">

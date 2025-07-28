@@ -15,19 +15,23 @@ const Blogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get(backendUrl + '/api/blogs', {
+        const res = await axios.get(`${backendUrl}/api/blogs`, {
           withCredentials: true,
         });
         setBlogs(res.data.blogs);
       } catch (error) {
-        console.error("Failed to fetch blogs:", error);
+        console.error("❌ Failed to fetch blogs", {
+          message: error?.message,
+          status: error?.response?.status,
+          response: error?.response?.data,
+        });
       } finally {
         setLoading(false);
       }
     };
 
     fetchBlogs();
-  }, []);
+  }, [backendUrl]);
 
   const handleCreateBlog = () => {
     navigate('/create-blog');
@@ -43,7 +47,7 @@ const Blogs = () => {
         <Navbar />
         <div className="flex items-center justify-center h-screen bg-white dark:bg-gray-900">
           <div className="loader mb-4"></div>
-          <p className="text-gray-700 dark:text-gray-200 text-sm mt-2">Loading blogs....</p>
+          <p className="text-gray-700 dark:text-gray-200 text-sm mt-2">Loading blogs...</p>
         </div>
       </>
     );
@@ -78,7 +82,6 @@ const Blogs = () => {
                 key={blog._id}
                 className="border p-4 rounded-md mb-6 bg-white dark:bg-gray-800 dark:border-gray-600 shadow-sm hover:shadow-md transition cursor-pointer"
               >
-                {/* ✅ Handle both local and URL-based thumbnails */}
                 {blog.thumbnail && (
                   <img
                     src={isExternalUrl ? blog.thumbnail : `${backendUrl}/uploads/${blog.thumbnail}`}
