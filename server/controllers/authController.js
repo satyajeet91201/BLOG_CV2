@@ -206,7 +206,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
     return next(new AppError("User does not exist with this email", 404));
   }
 
-  if (otp !== user.verifyOTp || Date.now() > user.verifyOTpExpireAt) {
+  if (otp !== user.verifyOTp || Date.now() < user.verifyOTpExpireAt) {
     return next(new AppError("Invalid or expired OTP", 400));
   }
 

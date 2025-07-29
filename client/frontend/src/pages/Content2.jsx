@@ -20,7 +20,7 @@ const Content2 = () => {
             Praphullakumar Lokhande
           </h1>
           <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-2">
-            Full Stack Developer | MERN | React | Node.js
+            Full Stack Developer | MERN | React | Node.js | JAVA
           </p>
 
           {/* Social Links */}
@@ -99,68 +99,79 @@ const Content2 = () => {
           <h2 className="text-2xl font-semibold mb-6">PROJECTS</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
             {[
-              {
-                title: 'Smart Restaurant Manager',
-                desc: [
-                  'Facial recognition-based food suggestion system.',
-                  'Uses computer vision and AI models to recommend dishes.',
-                  'Built with React, Flask, and OpenCV integration.',
-                ],
-                github: 'https://github.com/satyajeet91201/SRM-Final',
-                demo: 'https://smart-resturant-manager.netlify.app/',
-              },
-              {
-                title: 'Flavaro – Food Ordering App',
-                desc: [
-                  'Responsive UI for food ordering using React + Redux.',
-                  'Features cart functionality and product filters.',
-                  'Focus on state management and clean UX.',
-                ],
-                github: null,
-                demo: 'https://flavaro-gamma.vercel.app/',
-              },
-              {
-                title: 'Stock Forecasting App',
-                desc: [
-                  'AI-powered stock prediction using TensorFlow.js.',
-                  'Visualizes trends and stock prices dynamically.',
-                  'React frontend with real-time chart updates.',
-                ],
-                github: 'https://github.com/satyajeet91201/BLOG_CV2',
-                demo: 'https://v0-finnhub-stock-predictor.vercel.app/',
-              },
-              {
-                title: 'Blog & Profile Application',
-                desc: [
-                  'Full-stack blog CMS with MERN stack.',
-                  'Authentication, CRUD functionality, and image uploads.',
-                  'Responsive UI and secure route protection.',
-                ],
-                github: 'https://github.com/satyajeet91201/BLOG_CV',
-                demo: 'https://saty-writes.vercel.app/',
-              },
-            ].map((project, index) => (
-              <div key={index} className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-lg dark:shadow-white/10 hover:shadow-xl transition-all">
-                <h3 className="text-lg font-bold text-indigo-700 dark:text-white mb-2">{project.title}</h3>
-                <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc list-inside space-y-1 mb-2">
-                  {project.desc.map((line, i) => (
-                    <li key={i}>{line}</li>
-                  ))}
-                </ul>
-                <div className="text-sm mt-2 space-x-4">
-                  {project.github && (
-                    <a href={project.github} target="_blank" rel="noreferrer" className="text-indigo-500 underline">
-                      GitHub →
-                    </a>
-                  )}
-                  {project.demo && (
-                    <a href={project.demo} target="_blank" rel="noreferrer" className="text-green-500 underline">
-                      Demo →
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
+  {
+    title: 'Filter Object Fields Utility (Open Source Contribution)',
+    desc: [
+      'Reusable Node.js utility to filter objects based on allowed fields.',
+      'Designed for clean API request validation in Express apps.',
+      'Lightweight and easy to integrate across multiple routes/controllers.',
+    ],
+    github: 'https://github.com/satyajeet91201/Filter-Object-Fields.',
+    demo: null,
+  },
+  {
+    title: 'Smart Restaurant Manager',
+    desc: [
+      'Facial recognition-based food suggestion system.',
+      'Uses computer vision and AI models to recommend dishes.',
+      'Built with React, Flask, and OpenCV integration.',
+    ],
+    github: 'https://github.com/satyajeet91201/SRM-Final',
+    demo: 'https://smart-resturant-manager.netlify.app/',
+  },
+  {
+    title: 'Flavaro – Food Ordering App',
+    desc: [
+      'Responsive UI for food ordering using React + Redux.',
+      'Features cart functionality and product filters.',
+      'Focus on state management and clean UX.',
+    ],
+    github: null,
+    demo: 'https://flavaro-gamma.vercel.app/',
+  },
+  {
+    title: 'Stock Forecasting App',
+    desc: [
+      'AI-powered stock prediction using TensorFlow.js.',
+      'Visualizes trends and stock prices dynamically.',
+      'React frontend with real-time chart updates.',
+    ],
+    github: 'https://github.com/satyajeet91201/BLOG_CV2',
+    demo: 'https://v0-finnhub-stock-predictor.vercel.app/',
+  },
+  {
+    title: 'Blog & Profile Application',
+    desc: [
+      'Full-stack blog CMS with MERN stack.',
+      'Authentication, CRUD functionality, and image uploads.',
+      'Responsive UI and secure route protection.',
+    ],
+    github: 'https://github.com/satyajeet91201/BLOG_CV',
+    demo: 'https://saty-writes.vercel.app/',
+  },
+].map((project, index) => (
+  <div key={index} className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-lg dark:shadow-white/10 hover:shadow-xl transition-all">
+    <h3 className="text-lg font-bold text-indigo-700 dark:text-white mb-2">{project.title}</h3>
+    <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc list-inside space-y-1 mb-2">
+      {project.desc.map((line, i) => (
+        <li key={i}>{line}</li>
+      ))}
+    </ul>
+    <div className="text-sm mt-2 space-x-4">
+      {project.github && (
+        <a href={project.github} target="_blank" rel="noreferrer" className="text-indigo-500 underline">
+          GitHub →
+        </a>
+      )}
+      {project.demo && (
+        <a href={project.demo} target="_blank" rel="noreferrer" className="text-green-500 underline">
+          Demo →
+        </a>
+      )}
+    </div>
+  </div>
+))}
+
           </div>
         </div>
 
