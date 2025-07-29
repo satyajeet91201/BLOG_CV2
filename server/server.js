@@ -23,6 +23,7 @@ app.use(cors({
   origin: [
     'https://blog-cv2-frontt.vercel.app',
     'https://satyawrites.netlify.app',
+    'https://satya-writes.vercel.app',
     'https://saty-writes.vercel.app',
     'http://localhost:5175',
     'http://localhost:5173',
