@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar'; 
 import { assets } from '../assets/assets';
 
 const Content2 = () => {
