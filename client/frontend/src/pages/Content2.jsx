@@ -20,7 +20,7 @@ const Content2 = () => {
             Praphullakumar Lokhande
           </h1>
           <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-2">
-            Full Stack Developer | MERN | React | Node.js | JAVA
+            Full Stack Developer| Springboot | MERN | React | Node.js | JAVA | PostgresSQL
           </p>
 
           {/* Social Links */}
