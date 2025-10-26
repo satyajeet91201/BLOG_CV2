@@ -179,7 +179,7 @@ const Content2 = () => {
         <a
           href="/Praphullakumar-Lokhande-CV.pdf"
           download
-          className="mt-4 border border-gray-500 dark:border-white rounded-full px-8 py-2.5 font-semibold hover:bg-gray-300 dark:hover:bg-gray-700 transition-all"
+          className="mt-4 border border-gray-500  dark:border-white rounded-full px-8 py-2.5 font-semibold hover:bg-gray-300 dark:hover:bg-gray-700 transition-all"
         >
           📄 Download My Resume
         </a>
