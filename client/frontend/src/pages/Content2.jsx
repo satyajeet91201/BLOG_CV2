@@ -80,7 +80,7 @@ const Content2 = () => {
           <h2 className="text-2xl font-semibold mb-6">SKILLS</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {[
-              'React.js', 'Node.js', 'Express', 'MongoDB',
+              'React.js', 'Node.js',' SpringBoot','Java', 'Express', 'MongoDB',
               'Tailwind CSS', 'Redux', 'Git/GitHub', 'JWT',
               'API Integration', 'TypeScript',
             ].map((skill, index) => (
